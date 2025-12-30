@@ -19,11 +19,23 @@ Schnapzy is a web-based implementation of Schnapsen, a traditional Austrian two-
 - `npm run coverage` - Generate test coverage report
 
 ### Browser Debugging
-When `npm run dev` is running, use the browser-tools MCP to debug:
-- Take screenshots: `mcp__browser-tools__takeScreenshot`
-- Run performance/SEO/accessibility audits
-- Check console errors and network logs
-- Debug runtime issues interactively
+When `npm run dev` is running, use MCP tools to debug and visualize the application:
+
+**To view and analyze the current page:**
+1. Navigate: `mcp__chrome-devtools__navigate_page` to http://localhost:5173/
+2. Take screenshot: `mcp__chrome-devtools__take_screenshot`
+3. Process image: `mcp__zai-mcp-server__analyze_image` to analyze layout, design, and UI
+
+**Additional Chrome DevTools MCP capabilities:**
+- `take_snapshot` - Get text-based page structure snapshot
+- `list_console_messages` - Check for JavaScript errors
+- `list_network_requests` - Inspect API calls and resource loading
+- `evaluate_script` - Run JavaScript in the browser context
+- `click`/`fill`/`hover` - Interact with UI elements
+
+**Performance audits:**
+- `performance_start_trace` / `performance_stop_trace` - Record performance metrics
+- Check Core Web Vitals (LCP, FID, CLS)
 
 ## Architecture
 

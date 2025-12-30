@@ -1,52 +1,43 @@
-import './style.css'
-import { Application, Text, Container } from 'pixi.js'
+import './style.css';
+import { Application } from 'pixi.js';
+import { SchnapsenGame } from './gamelogic/index.js';
+import { UIManager } from './ui/index.js';
+import { createGameStateMachine } from './game_sm/index.js';
 
-const app = new Application()
+const app = new Application();
 
 async function init(): Promise<void> {
   await app.init({
     background: '#1a1a2e',
     resizeTo: window,
     antialias: true,
-  })
+  });
 
-  document.querySelector<HTMLDivElement>('#app')!.appendChild(app.canvas)
+  document.querySelector<HTMLDivElement>('#app')!.appendChild(app.canvas);
 
-  const loadingContainer = new Container()
-  loadingContainer.x = app.screen.width / 2
-  loadingContainer.y = app.screen.height / 2
-  app.stage.addChild(loadingContainer)
+  // Initialize the UI manager
+  const uiManager = new UIManager(app);
+  await uiManager.initialize();
 
-  const titleText = new Text({
-    text: 'SCHNAPZY',
-    style: {
-      fontFamily: 'Arial',
-      fontSize: 48,
-      fontWeight: 'bold',
-      fill: 0xffffff,
-      align: 'center',
-    },
-  })
-  titleText.anchor.set(0.5)
-  loadingContainer.addChild(titleText)
+  // Initialize the game logic
+  const game = new SchnapsenGame();
 
-  const loadingText = new Text({
-    text: 'Loading game assets...',
-    style: {
-      fontFamily: 'Arial',
-      fontSize: 20,
-      fill: 0xaaaaaa,
-      align: 'center',
-    },
-  })
-  loadingText.anchor.set(0.5)
-  loadingText.y = 60
-  loadingContainer.addChild(loadingText)
+  // Create and configure the game state machine
+  const gameStateMachine = createGameStateMachine(
+    game,
+    uiManager,
+    uiManager.getEventBus()
+  );
 
-  window.addEventListener('resize', (): void => {
-    loadingContainer.x = app.screen.width / 2
-    loadingContainer.y = app.screen.height / 2
-  })
+  // Connect EventBus to StateMachine
+  // All UI events flow through the state machine for processing
+  const eventBus = uiManager.getEventBus();
+  eventBus.onAny((event, data) => {
+    gameStateMachine.onEvent({ type: event, data });
+  });
+
+  // Start the state machine (will enter LOADING state)
+  gameStateMachine.start();
 }
 
-void init()
+void init();

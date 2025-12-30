@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="167.0869141pt" height="242.6669922pt" viewBox="0 0 167.0869141 242.6669922">
+  <defs>
+    <!-- dense squiggle tile derived from provided sample image -->
+    <pattern id="squiggle" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(-6)">
+      <rect x="0" y="0" width="24" height="24" fill="#b2392b" />
+      <path d="M2 6 C6 2 10 2 14 6 S22 12 18 16" stroke="#000" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.96"/>
+      <path d="M0 14 C4 10 8 10 12 14 S20 20 16 22" stroke="#000" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.96"/>
+      <path d="M6 0 C8 4 12 4 16 8 S22 12 20 16" stroke="#000" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.95"/>
+      <path d="M4 18 C8 14 12 14 16 18 S22 22 18 6" stroke="#000" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.94"/>
+      <path d="M3 10 C7 8 11 8 15 10" stroke="#8b1d1d" stroke-width="0.95" fill="none" opacity="0.86"/>
+      <circle cx="2.8" cy="2.6" r="0.9" fill="#fff" opacity="0.95"/>
+      <circle cx="10.5" cy="6.2" r="0.8" fill="#fff" opacity="0.9"/>
+      <circle cx="18.2" cy="12.4" r="0.9" fill="#fff" opacity="0.9"/>
+    </pattern>
+
+    <!-- subtle vignette to add depth -->
+    <radialGradient id="vign" cx="50%" cy="45%" r="75%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.22"/>
+    </radialGradient>
+  </defs>
+
+  <!-- rounded card filled with the squiggle pattern (no internal artwork) -->
+  <rect x="0.25" y="0.25" width="166.5869141" height="241.1669922" rx="7" ry="7" fill="url(#squiggle)" />
+
+  <!-- subtle inner vignette to match sample shading -->
+  <rect x="6" y="6" width="154.5869141" height="229.1669922" rx="6" ry="6" fill="url(#vign)" opacity="0.18" />
+
+  <!-- thin border to match clubs card visual (primary color) -->
+  <rect x="0.25" y="0.25" width="166.5869141" height="241.1669922" rx="7" ry="7" fill="none" stroke="#b21f2d" stroke-width="1" />
+
+  <!-- branding text removed per user request -->
+</svg>
