@@ -40,7 +40,7 @@ export type { GameStateEnum } from './game-state.enum.js';
 export { GameBaseState } from './GameBaseState.js';
 
 // State implementations
-export { LoadingState } from './LoadingState.js';
+export { LoadingState } from './load/LoadingState.js';
 export { StartMenuState } from './StartMenuState.js';
 export { DealerSelectionState } from './DealerSelectionState.js';
 export { DealCardsState } from './DealCardsState.js';

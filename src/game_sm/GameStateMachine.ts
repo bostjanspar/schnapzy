@@ -9,7 +9,7 @@ import { StateMachine } from '../sm/state-machine.js';
 import type { SchnapsenGame } from '../gamelogic/SchnapsenGame.js';
 import type { UIManager } from '../ui/UIManager.js';
 import type { EventBus } from '../ui/EventBus.js';
-import { LoadingState } from './LoadingState.js';
+import { LoadingState } from './load/LoadingState.js';
 import { StartMenuState } from './StartMenuState.js';
 import { DealerSelectionState } from './DealerSelectionState.js';
 import { DealCardsState } from './DealCardsState.js';
