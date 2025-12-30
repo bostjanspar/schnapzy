@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["vitest/globals", "jsdom", "vite/client"],
+    "noEmit": true
+  },
+  "include": ["test", "src"],
+  "exclude": ["node_modules", "dist"]
+}
