@@ -4,9 +4,10 @@
  */
 
 import { Text, Container, type Application } from 'pixi.js';
-import { BaseScene } from './BaseScene.js';
-import { EventBus } from './EventBus.js';
-import { GameEvent, GameScene } from './types.js';
+import { BaseScene } from './base-scene.js';
+import { EventBus } from './event-bus.js';
+import { GAME_EVENT_IDS } from '../events/index.js';
+import { GameScene } from './types.js';
 
 export class GameFinishedScene extends BaseScene {
   private container: Container;
@@ -67,7 +68,7 @@ export class GameFinishedScene extends BaseScene {
 
   private onPlayAgainClicked = (): void => {
     // Notify State Machine to restart game
-    this.eventBus.emit(GameEvent.PLAY_AGAIN_CLICKED);
+    this.eventBus.emit(GAME_EVENT_IDS.PLAY_AGAIN_CLICKED);
   };
 
   exit(): void {

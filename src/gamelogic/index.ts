@@ -20,11 +20,11 @@
  */
 
 // Main game class
-export { SchnapsenGame } from './SchnapsenGame.js';
+export { SchnapsenGame } from './schnapsen-game.js';
 
 // Layer classes
-export { Deal } from './Deal.js';
-export { Trick } from './Trick.js';
+export { Deal } from './deal.js';
+export { Trick } from './trick.js';
 
 // Type constants
 export {

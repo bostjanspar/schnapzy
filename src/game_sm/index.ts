@@ -37,15 +37,15 @@ export {
 export type { GameStateEnum } from './game-state.enum.js';
 
 // Base class
-export { GameBaseState } from './GameBaseState.js';
+export { GameBaseState } from './game-base-state.js';
 
 // State implementations
-export { LoadingState } from './load/LoadingState.js';
-export { StartMenuState } from './StartMenuState.js';
-export { DealerSelectionState } from './DealerSelectionState.js';
-export { DealCardsState } from './DealCardsState.js';
-export { DealResultState } from './DealResultState.js';
-export { GameFinishedState } from './GameFinishedState.js';
+export { LoadingState } from './load/loading-state.js';
+export { StartMenuState } from './start-menu-state.js';
+export { DealerSelectionState } from './dealer-selection-state.js';
+export { DealCardsState } from './deal-cards-state.js';
+export { DealResultState } from './deal-result-state.js';
+export { GameFinishedState } from './game-finished-state.js';
 
 // Factory function
-export { createGameStateMachine } from './GameStateMachine.js';
+export { createGameStateMachine } from './game-state-machine.js';

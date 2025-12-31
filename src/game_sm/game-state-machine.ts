@@ -6,15 +6,15 @@
  */
 
 import { StateMachine } from '../sm/state-machine.js';
-import type { SchnapsenGame } from '../gamelogic/SchnapsenGame.js';
-import type { UIManager } from '../ui/UIManager.js';
-import type { EventBus } from '../ui/EventBus.js';
-import { LoadingState } from './load/LoadingState.js';
-import { StartMenuState } from './StartMenuState.js';
-import { DealerSelectionState } from './DealerSelectionState.js';
-import { DealCardsState } from './DealCardsState.js';
-import { DealResultState } from './DealResultState.js';
-import { GameFinishedState } from './GameFinishedState.js';
+import type { SchnapsenGame } from '../gamelogic/schnapsen-game.js';
+import type { UIManager } from '../ui/ui-manager.js';
+import type { EventBus } from '../ui/event-bus.js';
+import { LoadingState } from './load/loading-state.js';
+import { StartMenuState } from './start-menu-state.js';
+import { DealerSelectionState } from './dealer-selection-state.js';
+import { DealCardsState } from './deal-cards-state.js';
+import { DealResultState } from './deal-result-state.js';
+import { GameFinishedState } from './game-finished-state.js';
 
 /**
  * Creates a configured game state machine for the Schnapsen game.

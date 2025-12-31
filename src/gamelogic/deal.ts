@@ -17,7 +17,7 @@ import type {
   Suit,
   TalonState,
 } from './types.js';
-import { Trick } from './Trick.js';
+import { Trick } from './trick.js';
 
 /**
  * Manages a single hand (deal) of Schnapsen.

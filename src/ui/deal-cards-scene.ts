@@ -4,9 +4,10 @@
  */
 
 import { Text, Container, type Application } from 'pixi.js';
-import { BaseScene } from './BaseScene.js';
-import { EventBus } from './EventBus.js';
-import { GameEvent, GameScene } from './types.js';
+import { BaseScene } from './base-scene.js';
+import { EventBus } from './event-bus.js';
+import { GAME_EVENT_IDS } from '../events/index.js';
+import { GameScene } from './types.js';
 
 export class DealCardsScene extends BaseScene {
   private container: Container;
@@ -49,7 +50,7 @@ export class DealCardsScene extends BaseScene {
       this.infoText.text = 'Cards dealt!';
 
       // Notify State Machine that deal animation is complete
-      this.eventBus.emit(GameEvent.DEAL_ANIM_COMPLETE);
+      this.eventBus.emit(GAME_EVENT_IDS.DEAL_ANIM_COMPLETE);
     }, 2000);
   }
 

@@ -4,7 +4,7 @@
  */
 
 import { Container, type Application } from 'pixi.js';
-import type { EventBus } from './EventBus.js';
+import type { EventBus } from './event-bus.js';
 import { GameScene } from './types.js';
 
 export abstract class BaseScene extends Container {

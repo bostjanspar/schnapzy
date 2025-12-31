@@ -26,40 +26,6 @@ export const GameScene = {
 } as const;
 
 /**
- * Events that scenes emit to notify the State Machine of completion.
- */
-export type GameEvent =
-  | 'ASSET_LOADED'
-  | 'START_CLICKED'
-  | 'DEALER_ANIM_COMPLETE'
-  | 'DEAL_ANIM_COMPLETE'
-  | 'CONTINUE_CLICKED'
-  | 'PLAY_AGAIN_CLICKED';
-
-/**
- * Game event values.
- */
-export const GameEvent = {
-  // Loading scene events
-  ASSET_LOADED: 'ASSET_LOADED' as const,
-
-  // Start menu events
-  START_CLICKED: 'START_CLICKED' as const,
-
-  // Dealer selection events
-  DEALER_ANIM_COMPLETE: 'DEALER_ANIM_COMPLETE' as const,
-
-  // Deal cards events
-  DEAL_ANIM_COMPLETE: 'DEAL_ANIM_COMPLETE' as const,
-
-  // Deal result events
-  CONTINUE_CLICKED: 'CONTINUE_CLICKED' as const,
-
-  // Game finished events
-  PLAY_AGAIN_CLICKED: 'PLAY_AGAIN_CLICKED' as const,
-} as const;
-
-/**
  * Scene transition data.
  */
 export interface SceneTransition {
@@ -67,8 +33,3 @@ export interface SceneTransition {
   to: GameScene;
   data?: unknown;
 }
-
-/**
- * Event callback signature.
- */
-export type EventCallback = (data?: unknown) => void;

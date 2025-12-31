@@ -5,14 +5,14 @@
 
 import type { Application } from 'pixi.js';
 import { GameScene } from './types.js';
-import { EventBus } from './EventBus.js';
-import { BaseScene } from './BaseScene.js';
-import { LoadingScene } from './LoadingScene.js';
-import { StartMenuScene } from './StartMenuScene.js';
-import { DealerSelectionScene } from './DealerSelectionScene.js';
-import { DealCardsScene } from './DealCardsScene.js';
-import { DealResultScene } from './DealResultScene.js';
-import { GameFinishedScene } from './GameFinishedScene.js';
+import { EventBus } from './event-bus.js';
+import { BaseScene } from './base-scene.js';
+import { LoadingScene } from './loading-scene.js';
+import { StartMenuScene } from './start-menu-scene.js';
+import { DealerSelectionScene } from './dealer-selection-scene.js';
+import { DealCardsScene } from './deal-cards-scene.js';
+import { DealResultScene } from './deal-result-scene.js';
+import { GameFinishedScene } from './game-finished-scene.js';
 
 export class SceneManager {
   private app: Application;

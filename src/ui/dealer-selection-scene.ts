@@ -4,9 +4,10 @@
  */
 
 import { Text, Container, type Application } from 'pixi.js';
-import { BaseScene } from './BaseScene.js';
-import { EventBus } from './EventBus.js';
-import { GameEvent, GameScene } from './types.js';
+import { BaseScene } from './base-scene.js';
+import { EventBus } from './event-bus.js';
+import { GAME_EVENT_IDS } from '../events/index.js';
+import { GameScene } from './types.js';
 
 export class DealerSelectionScene extends BaseScene {
   private container: Container;
@@ -51,7 +52,7 @@ export class DealerSelectionScene extends BaseScene {
       const electedDealerIndex = 0;
 
       // Notify State Machine that animation is complete
-      this.eventBus.emit(GameEvent.DEALER_ANIM_COMPLETE, {
+      this.eventBus.emit(GAME_EVENT_IDS.DEALER_ANIM_COMPLETE, {
         dealerIndex: electedDealerIndex,
       });
     }, 2000);

@@ -4,9 +4,10 @@
  */
 
 import { Text, Container, type Application } from 'pixi.js';
-import { BaseScene } from './BaseScene.js';
-import { EventBus } from './EventBus.js';
-import { GameEvent, GameScene } from './types.js';
+import { BaseScene } from './base-scene.js';
+import { EventBus } from './event-bus.js';
+import { GAME_EVENT_IDS } from '../events/index.js';
+import { GameScene } from './types.js';
 
 export class DealResultScene extends BaseScene {
   private container: Container;
@@ -59,7 +60,7 @@ export class DealResultScene extends BaseScene {
 
   private onContinueClicked = (): void => {
     // Notify State Machine to proceed
-    this.eventBus.emit(GameEvent.CONTINUE_CLICKED);
+    this.eventBus.emit(GAME_EVENT_IDS.CONTINUE_CLICKED);
   };
 
   exit(): void {

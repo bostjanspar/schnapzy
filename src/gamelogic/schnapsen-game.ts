@@ -16,7 +16,7 @@ import type {
   Suit,
   GamePhase,
 } from './types.js';
-import { Deal } from './Deal.js';
+import { Deal } from './deal.js';
 import {
   PLAYER_ONE,
   PLAYER_TWO,

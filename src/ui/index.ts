@@ -3,11 +3,12 @@
  *
  * Provides a scene-based architecture for the Schnapsen card game UI.
  * The State Machine controls scenes via UIManager methods;
- * scenes emit events via EventBus to notify completion.
+ * scenes emit events via EventBus which forwards them to the State Machine.
  *
  * @example
  * ```typescript
- * import { UIManager, GameEvent } from './ui';
+ * import { UIManager } from './ui';
+ * import { GAME_EVENT_IDS } from '../Events/index.js';
  *
  * const uiManager = new UIManager(app);
  * await uiManager.initialize();
@@ -15,29 +16,27 @@
  * // State Machine triggers scene
  * uiManager.showStartMenu();
  *
- * // State Machine listens for completion
- * uiManager.getEventBus().on(GameEvent.START_CLICKED, () => {
- *   uiManager.startDealerSelection(players);
- * });
+ * // Scenes emit events that flow to State Machine
+ * // eventBus.emit(GAME_EVENT_IDS.START_CLICKED, { language: 'en' });
  * ```
  */
 
 // Types and enums
-export { GameScene, GameEvent } from './types.js';
-export type { SceneTransition, EventCallback } from './types.js';
+export { GameScene } from './types.js';
+export type { SceneTransition } from './types.js';
 
 // Core classes
-export { EventBus } from './EventBus.js';
-export { BaseScene } from './BaseScene.js';
-export { SceneManager } from './SceneManager.js';
+export { EventBus } from './event-bus.js';
+export { BaseScene } from './base-scene.js';
+export { SceneManager } from './scene-manager.js';
 
 // Scene implementations
-export { LoadingScene } from './LoadingScene.js';
-export { StartMenuScene } from './StartMenuScene.js';
-export { DealerSelectionScene } from './DealerSelectionScene.js';
-export { DealCardsScene } from './DealCardsScene.js';
-export { DealResultScene } from './DealResultScene.js';
-export { GameFinishedScene } from './GameFinishedScene.js';
+export { LoadingScene } from './loading-scene.js';
+export { StartMenuScene } from './start-menu-scene.js';
+export { DealerSelectionScene } from './dealer-selection-scene.js';
+export { DealCardsScene } from './deal-cards-scene.js';
+export { DealResultScene } from './deal-result-scene.js';
+export { GameFinishedScene } from './game-finished-scene.js';
 
 // Main entry point
-export { UIManager } from './UIManager.js';
+export { UIManager } from './ui-manager.js';

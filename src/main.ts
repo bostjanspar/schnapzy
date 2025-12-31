@@ -30,11 +30,9 @@ async function init(): Promise<void> {
   );
 
   // Connect EventBus to StateMachine
-  // All UI events flow through the state machine for processing
+  // All UI events flow directly to the state machine
   const eventBus = uiManager.getEventBus();
-  eventBus.onAny((event, data) => {
-    gameStateMachine.onEvent({ type: event, data });
-  });
+  eventBus.setStateMachine(gameStateMachine);
 
   // Start the state machine (will enter LOADING state)
   gameStateMachine.start();

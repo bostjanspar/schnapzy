@@ -4,9 +4,10 @@
  */
 
 import { Text, Container, type Application } from 'pixi.js';
-import { BaseScene } from './BaseScene.js';
-import { EventBus } from './EventBus.js';
-import { GameEvent, GameScene } from './types.js';
+import { BaseScene } from './base-scene.js';
+import { EventBus } from './event-bus.js';
+import { GAME_EVENT_IDS } from '../events/index.js';
+import { GameScene } from './types.js';
 
 export class StartMenuScene extends BaseScene {
   private menuContainer: Container;
@@ -51,7 +52,7 @@ export class StartMenuScene extends BaseScene {
 
   private onStartClicked = (): void => {
     // Notify State Machine that start was clicked
-    this.eventBus.emit(GameEvent.START_CLICKED, { language: this.selectedLanguage });
+    this.eventBus.emit(GAME_EVENT_IDS.START_CLICKED, { language: this.selectedLanguage });
   };
 
   exit(): void {

@@ -63,6 +63,24 @@ When `npm run dev` is running, use MCP tools to debug and visualize the applicat
 - Supports `package.json` exports and imports fields via `resolvePackageJsonExports`
 - Tests use separate `tsconfig.spec.json` that extends base config
 
+### File Naming Conventions
+- **Source files**: Must use `kebab-case` naming (e.g., `schnapsen-game.ts`, `base-scene.ts`, `ui-manager.ts`)
+- **Class names**: Use `PascalCase` (e.g., `SchnapsenGame`, `BaseScene`, `UIManager`)
+- **Import paths**: Always use the actual kebab-case file names (with `.js` extension for ES modules)
+
+Examples:
+```typescript
+// File: src/gamelogic/schnapsen-game.ts
+export class SchnapsenGame { ... }
+
+// File: src/ui/base-scene.ts
+export abstract class BaseScene { ... }
+
+// Import in index.ts
+export { SchnapsenGame } from './schnapsen-game.js';
+export { BaseScene } from './base-scene.js';
+```
+
 ## Game Rules Reference
 
 The README.md contains the complete rules for Schnapsen. Key concepts for implementation:

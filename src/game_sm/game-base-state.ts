@@ -6,9 +6,9 @@
 import { BaseState } from '../sm/base-state.js';
 import type { StateEnum } from '../sm/state.enum.js';
 import type { SimpleEvent } from '../sm/types.js';
-import type { SchnapsenGame } from '../gamelogic/SchnapsenGame.js';
-import type { UIManager } from '../ui/UIManager.js';
-import type { EventBus } from '../ui/EventBus.js';
+import type { SchnapsenGame } from '../gamelogic/schnapsen-game.js';
+import type { UIManager } from '../ui/ui-manager.js';
+import type { EventBus } from '../ui/event-bus.js';
 
 /**
  * Abstract base class for all game states.

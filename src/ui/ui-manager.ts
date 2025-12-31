@@ -6,8 +6,8 @@
 
 import { type Application } from 'pixi.js';
 import { GameScene } from './types.js';
-import { EventBus } from './EventBus.js';
-import { SceneManager } from './SceneManager.js';
+import { EventBus } from './event-bus.js';
+import { SceneManager } from './scene-manager.js';
 
 export class UIManager {
   private app: Application;
@@ -105,6 +105,5 @@ export class UIManager {
   destroy(): void {
     this.app.ticker.remove(this.update.bind(this));
     this.sceneManager.destroy();
-    this.eventBus.clear();
   }
 }

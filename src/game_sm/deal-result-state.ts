@@ -3,13 +3,13 @@
  * Transitions to GAME_FINISHED or DEALER_SELECTION based on game state.
  */
 
-import { GameBaseState } from './GameBaseState.js';
+import { GameBaseState } from './game-base-state.js';
 import { DEAL_RESULT, GAME_FINISHED, DEALER_SELECTION } from './game-state.enum.js';
 import type { SimpleEvent } from '../sm/types.js';
-import type { SchnapsenGame } from '../gamelogic/SchnapsenGame.js';
-import type { UIManager } from '../ui/UIManager.js';
-import type { EventBus } from '../ui/EventBus.js';
-import { GameEvent } from '../ui/types.js';
+import type { SchnapsenGame } from '../gamelogic/schnapsen-game.js';
+import type { UIManager } from '../ui/ui-manager.js';
+import type { EventBus } from '../ui/event-bus.js';
+import { GAME_EVENT_IDS } from '../events/index.js';
 import type { StateEnum } from '../sm/state.enum.js';
 
 export class DealResultState extends GameBaseState {
@@ -35,7 +35,7 @@ export class DealResultState extends GameBaseState {
   }
 
   override onEvent(simpleEvent: SimpleEvent): boolean {
-    if (this.isEvent(simpleEvent, GameEvent.CONTINUE_CLICKED)) {
+    if (this.isEvent(simpleEvent, GAME_EVENT_IDS.CONTINUE_CLICKED)) {
       // Check if the game is over
       if (this.game.isGameOver()) {
         this.transition(GAME_FINISHED as StateEnum);
