@@ -20,6 +20,12 @@ export class StartMenuState extends GameBaseState {
   onEntry(): void {
     // Show the start menu
     this.ui.showStartMenu();
+    //temporary  move to next state
+    setTimeout(() => {
+          log.debug('move to GAME state');
+          this.transition(GAME as StateEnum);
+        }, 100);      
+    
   }
 
   onLeave(): void {

@@ -5,7 +5,7 @@
 
 import { GameBaseState } from '../../game-base-state.js';
 import type { GameState } from '../game-state.js';
-import { DEAL_CARDS, DEALER_SELECTION } from '../../game-state.enum.js';
+import { DEAL_CARDS, DEALER_SELECTION, PLAY_HAND } from '../../game-state.enum.js';
 import type { StateEnum } from '../../../sm/state.enum.js';
 import type { SimpleEvent } from '../../../sm/types.js';
 import { GAME_EVENT_IDS } from '../../../events/game-event-ids.js';
@@ -19,6 +19,13 @@ export class DealerSelectionState extends GameBaseState {
 
   onEntry(): void {
     log.debug('Entering DealerSelectionState');
+    //create simple timer call 
+
+    //temporary  move to next state
+    setTimeout(() => {
+      log.debug('move to PLAY_HAND state');
+      this.transition(PLAY_HAND as StateEnum);
+    }, 100);
   }
 
   onLeave(): void {
