@@ -3,8 +3,11 @@ import { Application } from 'pixi.js';
 import { SchnapsenGame } from './gamelogic/index.js';
 import { UIManager } from './ui/index.js';
 import { createGameStateMachine } from './game_sm/index.js';
+import log from 'loglevel'
 
 const app = new Application();
+
+log.setLevel('debug')
 
 async function init(): Promise<void> {
   await app.init({
@@ -21,19 +24,13 @@ async function init(): Promise<void> {
 
   // Initialize the game logic
   const game = new SchnapsenGame();
-
   // Create and configure the game state machine
-  const gameStateMachine = createGameStateMachine(
-    game,
-    uiManager,
-    uiManager.getEventBus()
-  );
+  const gameStateMachine = createGameStateMachine(game, uiManager);
 
   // Connect EventBus to StateMachine
   // All UI events flow directly to the state machine
-  const eventBus = uiManager.getEventBus();
-  eventBus.setStateMachine(gameStateMachine);
-
+  uiManager.getEventBus().setStateMachine(gameStateMachine);
+  
   // Start the state machine (will enter LOADING state)
   gameStateMachine.start();
 }

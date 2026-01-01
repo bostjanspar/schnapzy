@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@pixi/ui": "^2.3.2",
+    "loglevel": "^1.9.2",
     "pixi.js": "^8.14.3"
   }
 }

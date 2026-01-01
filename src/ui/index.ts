@@ -30,6 +30,9 @@ export { EventBus } from './event-bus.js';
 export { BaseScene } from './base-scene.js';
 export { SceneManager } from './scene-manager.js';
 
+// Asset management
+export { CardAssets, getCardAssets } from './card-assets.js';
+
 // Scene implementations
 export { LoadingScene } from './loading-scene.js';
 export { StartMenuScene } from './start-menu-scene.js';

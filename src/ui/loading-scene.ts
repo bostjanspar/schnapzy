@@ -6,14 +6,15 @@
 import { Text, Container, type Application } from 'pixi.js';
 import { BaseScene } from './base-scene.js';
 import { EventBus } from './event-bus.js';
-import { GAME_EVENT_IDS } from '../events/index.js';
 import { GameScene } from './types.js';
+import { CardAssets } from './card-assets.js';
+import { EventAssetLoaded } from '../events/index.js';
+import log from 'loglevel'
 
 export class LoadingScene extends BaseScene {
   private loadingContainer: Container;
   private titleText: Text;
   private loadingText: Text;
-  private loadingProgress: number = 0;
 
   constructor(app: Application, eventBus: EventBus) {
     super(app, eventBus, GameScene.LOADING);
@@ -43,30 +44,22 @@ export class LoadingScene extends BaseScene {
 
   enter(_data?: unknown): void {
     this.visible = true;
-    this.loadingProgress = 0;
     this.loadAssets();
   }
 
-  private async loadAssets(): Promise<void> {
-    // TODO: Implement actual asset loading
-    // - Load card textures
-    // - Load sound effects
-    // - Load fonts
-    // - Update loading progress
+  private async loadAssets() {
+    log.debug('LoadingScene: Starting to load assets');
+    this.loadingText.text = 'Loading game assets... ';
+    const cardAssets = CardAssets.getInstance();
+    if (cardAssets.isLoaded()) {
+      this.loadingText.text = 'All assets already loaded.';
+      this.eventBus.emit(new EventAssetLoaded());
+    } else
 
-    // Simulate loading for now
-    this.loadingText.text = 'Loading game assets... 0%';
-
-    const loadingInterval = setInterval(() => {
-      this.loadingProgress += 10;
-      this.loadingText.text = `Loading game assets... ${this.loadingProgress}%`;
-
-      if (this.loadingProgress >= 100) {
-        clearInterval(loadingInterval);
-        // Notify State Machine that loading is complete
-        this.eventBus.emit(GAME_EVENT_IDS.ASSET_LOADED);
-      }
-    }, 100);
+    cardAssets.loadAll().then(() => {
+      this.loadingText.text = 'All assets loaded.';
+      this.eventBus.emit(new EventAssetLoaded());
+    });
   }
 
   exit(): void {

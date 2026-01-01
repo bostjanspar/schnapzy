@@ -24,12 +24,11 @@ export class EventBus {
    * @param event - Event name/type
    * @param data - Optional event data payload
    */
-  emit(event: string, data?: unknown): void {
+  emit(simpleEvent: SimpleEvent): void {
     if (!this.stateMachine) {
-      console.warn(`EventBus.emit called before state machine was set: ${event}`);
+      console.warn(`EventBus.emit called before state machine was set: ${simpleEvent.type}`);
       return;
     }
-    const simpleEvent: SimpleEvent = { type: event, data };
     this.stateMachine.onEvent(simpleEvent);
   }
 }

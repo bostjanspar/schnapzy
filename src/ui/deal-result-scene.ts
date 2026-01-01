@@ -60,7 +60,7 @@ export class DealResultScene extends BaseScene {
 
   private onContinueClicked = (): void => {
     // Notify State Machine to proceed
-    this.eventBus.emit(GAME_EVENT_IDS.CONTINUE_CLICKED);
+    this.eventBus.emit({ type: GAME_EVENT_IDS.CONTINUE_CLICKED });
   };
 
   exit(): void {

@@ -26,7 +26,7 @@ export abstract class BaseState {
    * Adds a child state to this state.
    * @throws {Error} If a state with the same ID already exists or a circular reference is detected
    */
-  public addSubstate(childState: BaseState): void {
+  public addSubState(childState: BaseState): void {
     if (this.children.some(child => child.id === childState.id)) {
       throw new Error(
         `State with ID ${String(childState.id)} already exists as a substate.`
@@ -171,6 +171,14 @@ export abstract class BaseState {
       currentState.activeSubstate = childState;
       childState.onEntry();
       currentState = childState;
+    }
+  }
+
+   protected safeParentTransition(stateId: StateEnum): void {
+    if (this.parent) {
+      this.parent.transition(stateId);
+    } else {
+      throw new Error(`No parent state machine for state ${this.id} to transition to ${stateId}.`);
     }
   }
 }

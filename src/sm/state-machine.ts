@@ -80,7 +80,7 @@ export class StateMachine {
    * Adds a top-level state to this state machine.
    */
   public addState(state: BaseState): void {
-    this.rootState.addSubstate(state);
+    this.rootState.addSubState(state);
   }
 
   /**

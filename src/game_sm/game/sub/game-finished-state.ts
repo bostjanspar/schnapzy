@@ -3,21 +3,20 @@
  * Transitions back to START_MENU when PLAY_AGAIN_CLICKED event is received.
  */
 
-import { GameBaseState } from './game-base-state.js';
-import { GAME_FINISHED, START_MENU } from './game-state.enum.js';
-import type { SimpleEvent } from '../sm/types.js';
-import type { SchnapsenGame } from '../gamelogic/schnapsen-game.js';
-import type { UIManager } from '../ui/ui-manager.js';
-import type { EventBus } from '../ui/event-bus.js';
-import { GAME_EVENT_IDS } from '../events/index.js';
-import { PLAYER_ONE, PLAYER_TWO } from '../gamelogic/types.js';
-import type { StateEnum } from '../sm/state.enum.js';
+import { GameBaseState } from '../../game-base-state.js';
+import { GAME_FINISHED, START_MENU } from '../../game-state.enum.js';
+import type { SimpleEvent } from '../../../sm/types.js';
+import { GAME_EVENT_IDS } from '../../../events/index.js';
+import { PLAYER_ONE, PLAYER_TWO } from '../../../gamelogic/types.js';
+import type { StateEnum } from '../../../sm/state.enum.js';
+import type { GameState } from '../game-state.js';
 
 export class GameFinishedState extends GameBaseState {
-  constructor(game: SchnapsenGame, ui: UIManager, eventBus: EventBus) {
-    super(GAME_FINISHED as StateEnum, game, ui, eventBus);
-  }
-
+  constructor(gameState: GameState) {
+      super(GAME_FINISHED as StateEnum, gameState.game, gameState.ui);
+      gameState.addSubState(this);
+    }
+  
   onEntry(): void {
     // Get final scores and show game finished screen
     const winner = this.game.getWinner();

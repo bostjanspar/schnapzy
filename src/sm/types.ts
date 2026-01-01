@@ -7,13 +7,14 @@
  * Framework-agnostic - can be used with any event system.
  *
  * @template TType - The type of the event type identifier (string, number, or enum)
- * @template TData - The type of optional data payload
  */
-export interface SimpleEvent<TType = string | number, TData = unknown> {
+export class SimpleEvent<TType extends string | number = string> {
   /** The event type identifier */
   type: TType;
-  /** Optional data payload associated with the event */
-  data?: TData;
+
+  constructor(type: TType) {
+    this.type = type;
+  }
 }
 
 /**

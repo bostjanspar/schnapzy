@@ -8,13 +8,14 @@
 import { StateMachine } from '../sm/state-machine.js';
 import type { SchnapsenGame } from '../gamelogic/schnapsen-game.js';
 import type { UIManager } from '../ui/ui-manager.js';
-import type { EventBus } from '../ui/event-bus.js';
 import { LoadingState } from './load/loading-state.js';
-import { StartMenuState } from './start-menu-state.js';
-import { DealerSelectionState } from './dealer-selection-state.js';
-import { DealCardsState } from './deal-cards-state.js';
-import { DealResultState } from './deal-result-state.js';
-import { GameFinishedState } from './game-finished-state.js';
+import { StartMenuState } from './start-menu/start-menu-state.js';
+import { GameFinishedState } from './game/sub/game-finished-state.js';
+import { GameState } from './game/game-state.js';
+import { DealerSelectionState } from './game/sub/dealer-selection-state.js';
+import { DealCardsState } from './game/sub/deal-cards-state.js';
+import { HandResultState } from './game/sub/hand-result-state.js';
+
 
 /**
  * Creates a configured game state machine for the Schnapsen game.
@@ -26,26 +27,25 @@ import { GameFinishedState } from './game-finished-state.js';
  */
 export function createGameStateMachine(
   game: SchnapsenGame,
-  ui: UIManager,
-  eventBus: EventBus
+  ui: UIManager
 ): StateMachine {
   const sm = new StateMachine();
 
   // Create all game states
-  const loadingState = new LoadingState(game, ui, eventBus);
-  const startMenuState = new StartMenuState(game, ui, eventBus);
-  const dealerSelectionState = new DealerSelectionState(game, ui, eventBus);
-  const dealCardsState = new DealCardsState(game, ui, eventBus);
-  const dealResultState = new DealResultState(game, ui, eventBus);
-  const gameFinishedState = new GameFinishedState(game, ui, eventBus);
+  const loadingState = new LoadingState(game, ui);
+  const startMenuState = new StartMenuState(game, ui);
+  const gameState = new GameState(game, ui);
+
+  //add sun-states , not order is important 
+  new DealerSelectionState(gameState);  
+  new DealCardsState(gameState);
+  new HandResultState(gameState);
+  new GameFinishedState(gameState);
+
 
   // Add states to the state machine (order matters - first state is initial)
   sm.addState(loadingState);
   sm.addState(startMenuState);
-  sm.addState(dealerSelectionState);
-  sm.addState(dealCardsState);
-  sm.addState(dealResultState);
-  sm.addState(gameFinishedState);
-
+  sm.addState(gameState);    
   return sm;
 }

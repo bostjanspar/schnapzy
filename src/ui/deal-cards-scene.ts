@@ -50,7 +50,7 @@ export class DealCardsScene extends BaseScene {
       this.infoText.text = 'Cards dealt!';
 
       // Notify State Machine that deal animation is complete
-      this.eventBus.emit(GAME_EVENT_IDS.DEAL_ANIM_COMPLETE);
+      this.eventBus.emit({ type: GAME_EVENT_IDS.DEAL_ANIM_COMPLETE });
     }, 2000);
   }
 

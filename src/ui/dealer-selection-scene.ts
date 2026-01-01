@@ -6,7 +6,6 @@
 import { Text, Container, type Application } from 'pixi.js';
 import { BaseScene } from './base-scene.js';
 import { EventBus } from './event-bus.js';
-import { GAME_EVENT_IDS } from '../events/index.js';
 import { GameScene } from './types.js';
 
 export class DealerSelectionScene extends BaseScene {
@@ -49,12 +48,9 @@ export class DealerSelectionScene extends BaseScene {
       this.infoText.text = 'Dealer selected!';
 
       // Simulate elected dealer (should come from game logic)
-      const electedDealerIndex = 0;
 
       // Notify State Machine that animation is complete
-      this.eventBus.emit(GAME_EVENT_IDS.DEALER_ANIM_COMPLETE, {
-        dealerIndex: electedDealerIndex,
-      });
+      
     }, 2000);
   }
 

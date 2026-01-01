@@ -39,4 +39,4 @@ export type EventType = string | number;
  * Base event interface.
  * Applications extend this for domain-specific events.
  */
-export interface BaseEvent extends SimpleEvent<EventType, unknown> {}
+export interface BaseEvent extends SimpleEvent<EventType> {}

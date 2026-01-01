@@ -6,14 +6,14 @@
 import { Text, Container, type Application } from 'pixi.js';
 import { BaseScene } from './base-scene.js';
 import { EventBus } from './event-bus.js';
-import { GAME_EVENT_IDS } from '../events/index.js';
+//import { StartClickedEvent  } from '../events/index.js';
 import { GameScene } from './types.js';
 
 export class StartMenuScene extends BaseScene {
   private menuContainer: Container;
   private titleText: Text;
   private startButtonText: Text;
-  private selectedLanguage: string = 'en';
+  //private selectedLanguage: string = 'en';
 
   constructor(app: Application, eventBus: EventBus) {
     super(app, eventBus, GameScene.START_MENU);
@@ -52,7 +52,8 @@ export class StartMenuScene extends BaseScene {
 
   private onStartClicked = (): void => {
     // Notify State Machine that start was clicked
-    this.eventBus.emit(GAME_EVENT_IDS.START_CLICKED, { language: this.selectedLanguage });
+    //this.eventBus.emit(new StartClickedEvent());
+    this.exit()
   };
 
   exit(): void {
