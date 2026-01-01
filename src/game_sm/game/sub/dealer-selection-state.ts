@@ -9,6 +9,7 @@ import { DEAL_CARDS, DEALER_SELECTION } from '../../game-state.enum.js';
 import type { StateEnum } from '../../../sm/state.enum.js';
 import type { SimpleEvent } from '../../../sm/types.js';
 import { GAME_EVENT_IDS } from '../../../events/game-event-ids.js';
+import log from 'loglevel'
 
 export class DealerSelectionState extends GameBaseState {
   constructor(gameState: GameState) {
@@ -17,6 +18,7 @@ export class DealerSelectionState extends GameBaseState {
     }
 
   onEntry(): void {
+    log.debug('Entering DealerSelectionState');
   }
 
   onLeave(): void {

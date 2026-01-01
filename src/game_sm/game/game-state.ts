@@ -13,6 +13,7 @@ import type { SchnapsenGame } from '../../gamelogic/schnapsen-game.js';
 import type { UIManager } from '../../ui/ui-manager.js';
 
 import type { StateEnum } from '../../sm/state.enum.js';
+import log from 'loglevel'
 
 export class GameState extends GameBaseState {
   constructor(game: SchnapsenGame, ui: UIManager) {
@@ -20,7 +21,7 @@ export class GameState extends GameBaseState {
   }
 
   onEntry(): void {
-    // Get deal state from the game a
+    log.debug('Entering Game State');
   }
 
   onLeave(): void {

@@ -5,8 +5,8 @@
 
 import { Text, Container, type Application } from 'pixi.js';
 import { BaseScene } from './base-scene.js';
-import { EventBus } from './event-bus.js';
-//import { StartClickedEvent  } from '../events/index.js';
+import { EventBus} from './event-bus.js';
+import { EventStartGame } from '../events/index.js';
 import { GameScene } from './types.js';
 
 export class StartMenuScene extends BaseScene {
@@ -52,8 +52,8 @@ export class StartMenuScene extends BaseScene {
 
   private onStartClicked = (): void => {
     // Notify State Machine that start was clicked
-    //this.eventBus.emit(new StartClickedEvent());
-    this.exit()
+    this.eventBus.emit(new EventStartGame());
+
   };
 
   exit(): void {

@@ -12,3 +12,9 @@ export class EventAssetLoaded extends SimpleEvent<typeof GAME_EVENT_IDS.ASSET_LO
     super(GAME_EVENT_IDS.ASSET_LOADED);
   }
 }
+
+export class EventStartGame extends SimpleEvent<typeof GAME_EVENT_IDS.START_CLICKED> {
+  constructor() {
+    super(GAME_EVENT_IDS.START_CLICKED);
+  }
+}
