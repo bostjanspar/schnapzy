@@ -62,11 +62,6 @@ export class DealCardsScene extends BaseScene {
 
     // Create the player hand (5 random cards at bottom)
     this.createPlayerHand();
-
-    // Notify State Machine that deal animation is complete
-    setTimeout(() => {
-      this.eventBus.emit({ type: GAME_EVENT_IDS.DEAL_ANIM_COMPLETE });
-    }, 500);
   }
 
   private createDeck(): void {
