@@ -1,30 +1,3 @@
-/**
- * Hierarchical State Machine Library
- *
- * A framework-agnostic library for implementing hierarchical state machines
- * with support for event handling, state transitions, and priority-based
- * state machine management.
- *
- * @example
- * ```typescript
- * import { BaseState, StateMachine, StateMachineManager, StateEnum } from '@/sm';
- *
- * // Define your state enum
- * enum MyStates {
- *   ROOT = StateEnum.ROOT,
- *   STATE_A = 100,
- *   STATE_B = 200,
- * }
- *
- * // Create a state class
- * class MyState extends BaseState {
- *   onEntry() { console.log('Entered state'); }
- *   onLeave() { console.log('Left state'); }
- * }
- * ```
- */
-
-// Core classes
 export { BaseState } from './base-state.js';
 export { StateMachine, RootState } from './state-machine.js';
 export { StateMachineManager } from './state-machine-manager.js';

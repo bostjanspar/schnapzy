@@ -1,10 +1,3 @@
-/**
- * Type definitions for the UI scene management system.
- */
-
-/**
- * All available game scenes.
- */
 export type GameScene =
   | 'LOADING'
   | 'START_MENU'
@@ -13,9 +6,6 @@ export type GameScene =
   | 'DEAL_RESULT'
   | 'GAME_FINISHED';
 
-/**
- * Game scene values.
- */
 export const GameScene = {
   LOADING: 'LOADING' as const,
   START_MENU: 'START_MENU' as const,
@@ -25,9 +15,6 @@ export const GameScene = {
   GAME_FINISHED: 'GAME_FINISHED' as const,
 } as const;
 
-/**
- * Scene transition data.
- */
 export interface SceneTransition {
   from: GameScene;
   to: GameScene;

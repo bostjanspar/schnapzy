@@ -1,16 +1,3 @@
-/**
- * Layer 2: Card/Deck Manager
- *
- * Manages a single hand (deal) of Schnapsen.
- * Responsibilities:
- * - Manage player hands (5 cards each)
- * - Control talon state (OPEN/CLOSED/EXHAUSTED)
- * - Track card points and tricks won per player
- * - Handle marriages (20/40 points)
- * - Handle trump Jack exchange
- * - Validate card plays based on talon state
- */
-
 import type {
   Player,
   Card,
@@ -19,9 +6,6 @@ import type {
 } from './types.js';
 import { Trick } from './trick.js';
 
-/**
- * Manages a single hand (deal) of Schnapsen.
- */
 export class Deal {
   private hands: Map<Player, Card[]>;
   private talon: Card[];
@@ -55,10 +39,6 @@ export class Deal {
   // Setup
   // ==========================================================================
 
-  /**
-   * Deal cards to both players.
-   * 5 cards each: first 3, then 2 more after trump is determined.
-   */
   public deal(dealer: Player): void {
     // Placeholder: actual deck creation and shuffling to be implemented
     this.hands.get(dealer)!.push(...this.createMockHand());
@@ -71,9 +51,6 @@ export class Deal {
     this.currentTrick = new Trick(this.trumpCard.suit);
   }
 
-  /**
-   * Create a mock hand for testing (placeholder).
-   */
   private createMockHand(): Card[] {
     return [
       { suit: 'HEARTS' as Suit, rank: 'ACE' as const },
@@ -92,9 +69,6 @@ export class Deal {
   // Card Play
   // ==========================================================================
 
-  /**
-   * Play a card from the player's hand to the current trick.
-   */
   public playCard(player: Player, card: Card): Trick {
     if (!this.isValidPlay(player, card)) {
       throw new Error(`Invalid play: player cannot play ${card.rank} of ${card.suit}`);
@@ -127,10 +101,6 @@ export class Deal {
     return this.currentTrick;
   }
 
-  /**
-   * Validate whether a card play is legal.
-   * TODO: Implement full validation based on talon state and Schnapsen rules.
-   */
   public isValidPlay(player: Player, card: Card): boolean {
     const hand = this.hands.get(player);
     if (!hand) return false;
@@ -150,10 +120,6 @@ export class Deal {
   // Special Actions
   // ==========================================================================
 
-  /**
-   * Exchange the trump Jack for the face-up trump card.
-   * Can only be done while talon is open.
-   */
   public exchangeTrumpJack(player: Player): void {
     if (this.talonState !== 'TALON_OPEN') {
       throw new Error('Cannot exchange trump Jack: talon is not open.');
@@ -172,10 +138,6 @@ export class Deal {
     // Remove Jack from hand, add trump card
   }
 
-  /**
-   * Declare a marriage (King-Queen of same suit).
-   * Returns 20 points for plain marriage, 40 for royal marriage (trumps).
-   */
   public declareMarriage(player: Player, suit: Suit): number {
     const hand = this.hands.get(player)!;
     const hasKing = hand.some(c => c.suit === suit && c.rank === 'KING');
@@ -194,10 +156,6 @@ export class Deal {
     return points;
   }
 
-  /**
-   * Close the talon (draw pile).
-   * Commits the player to reach 66 points with their current cards.
-   */
   public closeTalon(): void {
     if (this.talonState !== 'TALON_OPEN') {
       throw new Error('Cannot close: talon is not open.');
@@ -214,65 +172,38 @@ export class Deal {
   // Queries
   // ==========================================================================
 
-  /**
-   * Get the current hand of a player.
-   */
   public getHand(player: Player): Card[] {
     return [...(this.hands.get(player) ?? [])];
   }
 
-  /**
-   * Get the current state of the talon.
-   */
   public getTalonState(): TalonState {
     return this.talonState;
   }
 
-  /**
-   * Get the trump suit.
-   */
   public getTrumpSuit(): Suit | null {
     return this.trumpCard?.suit ?? null;
   }
 
-  /**
-   * Get the card points earned by a player.
-   */
   public getCardPoints(player: Player): number {
     return this.cardPoints.get(player) ?? 0;
   }
 
-  /**
-   * Get the number of tricks won by a player.
-   */
   public getTricksWon(player: Player): number {
     return this.tricksWon.get(player) ?? 0;
   }
 
-  /**
-   * Get the marriage points earned by a player.
-   */
   public getMarriagePoints(player: Player): number {
     return this.marriagePoints.get(player) ?? 0;
   }
 
-  /**
-   * Get the total points (card points + marriage points) for a player.
-   */
   public getTotalPoints(player: Player): number {
     return this.getCardPoints(player) + this.getMarriagePoints(player);
   }
 
-  /**
-   * Get the current trick.
-   */
   public getCurrentTrick(): Trick {
     return this.currentTrick;
   }
 
-  /**
-   * Check if the talon is exhausted.
-   */
   public isTalonExhausted(): boolean {
     return this.talon.length === 0 && this.talonState === 'TALON_OPEN';
   }

@@ -1,8 +1,3 @@
-/**
- * Game finished state - shows the overall winner and final scores.
- * Transitions back to START_MENU when PLAY_AGAIN_CLICKED event is received.
- */
-
 import { GameBaseState } from '../../game-base-state.js';
 import { GAME_FINISHED, START_MENU } from '../../game-state.enum.js';
 import type { SimpleEvent } from '../../../sm/types.js';
@@ -16,7 +11,7 @@ export class GameFinishedState extends GameBaseState {
       super(GAME_FINISHED as StateEnum, gameState.game, gameState.ui);
       gameState.addSubState(this);
     }
-  
+
   onEntry(): void {
     // Get final scores and show game finished screen
     const winner = this.game.getWinner();

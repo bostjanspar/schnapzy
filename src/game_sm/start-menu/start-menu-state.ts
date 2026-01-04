@@ -1,8 +1,3 @@
-/**
- * Start menu state - shows the main menu with start button.
- * Transitions to DEALER_SELECTION when START_CLICKED event is received.
- */
-
 import { GameBaseState } from '../game-base-state.js';
 import { START_MENU, GAME } from '../game-state.enum.js';
 import type { SimpleEvent } from '../../sm/types.js';
@@ -24,8 +19,8 @@ export class StartMenuState extends GameBaseState {
     setTimeout(() => {
           log.debug('move to GAME state');
           this.transition(GAME as StateEnum);
-        }, 100);      
-    
+        }, 100);
+
   }
 
   onLeave(): void {
@@ -33,7 +28,7 @@ export class StartMenuState extends GameBaseState {
   }
 
   override onEvent(simpleEvent: SimpleEvent): boolean {
-    if (simpleEvent.type == GAME_EVENT_IDS.START_CLICKED) {            
+    if (simpleEvent.type == GAME_EVENT_IDS.START_CLICKED) {
       log.debug('Start button clicked, transitioning to Game State');
       this.transition(GAME as StateEnum);
       return true;

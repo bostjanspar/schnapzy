@@ -20,9 +20,6 @@ export abstract class GameBaseState extends BaseState {
     this.ui = ui!;
   }
 
-  /**
-   * Helper method to check if an event matches a specific game event type.
-   */
   protected isEvent(simpleEvent: SimpleEvent, eventType: string): boolean {
     return simpleEvent.type === eventType;
   }

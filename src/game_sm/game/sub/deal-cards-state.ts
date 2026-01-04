@@ -1,12 +1,3 @@
-/**
- * Deal cards state - animates dealing cards to players.
- * Transitions to DEAL_RESULT when DEAL_ANIM_COMPLETE event is received.
- *
- * Note: This would normally transition to a "playing cards" state where
- * the actual trick-taking gameplay happens. For now, we skip directly to
- * the deal result for demonstration.
- */
-
 import { GameBaseState } from '../../game-base-state.js';
 import { DEAL_CARDS, PLAY_HAND } from '../../game-state.enum.js';
 import type { SimpleEvent } from '../../../sm/types.js';

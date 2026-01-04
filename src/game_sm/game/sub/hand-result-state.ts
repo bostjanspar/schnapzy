@@ -1,8 +1,3 @@
-/**
- * Deal result state - shows the winner of the current deal and points awarded.
- * Transitions to GAME_FINISHED or DEALER_SELECTION based on game state.
- */
-
 import { GameBaseState } from '../../game-base-state.js';
 import { HAND_RESULT, GAME_FINISHED, DEALER_SELECTION } from '../../game-state.enum.js';
 import type { SimpleEvent } from '../../../sm/types.js';import { GAME_EVENT_IDS } from '../../../events/index.js';
@@ -38,5 +33,5 @@ export class HandResultState extends GameBaseState {
     return false;
   }
 
- 
+
 }

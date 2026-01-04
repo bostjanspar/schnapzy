@@ -1,10 +1,3 @@
-/**
- * Factory function to create and configure the game state machine.
- *
- * The game state machine bridges the UI layer (scenes) and the game logic layer.
- * It listens to events from scenes via EventBus and controls scene transitions via UIManager.
- */
-
 import { StateMachine } from '../sm/state-machine.js';
 import type { SchnapsenGame } from '../gamelogic/schnapsen-game.js';
 import type { UIManager } from '../ui/ui-manager.js';
@@ -18,14 +11,6 @@ import { HandResultState } from './game/sub/hand-result-state.js';
 import { PlayHandState } from './game/sub/play-hand-state.js';
 
 
-/**
- * Creates a configured game state machine for the Schnapsen game.
- *
- * @param game - The Schnapsen game logic instance
- * @param ui - The UI manager for controlling scenes
- * @param eventBus - The event bus for receiving UI events
- * @returns A configured StateMachine ready to start
- */
 export function createGameStateMachine(
   game: SchnapsenGame,
   ui: UIManager
@@ -37,8 +22,8 @@ export function createGameStateMachine(
   const startMenuState = new StartMenuState(game, ui);
   const gameState = new GameState(game, ui);
 
-  //add sun-states , not order is important 
-  new DealerSelectionState(gameState);  
+  //add sun-states , not order is important
+  new DealerSelectionState(gameState);
   new DealCardsState(gameState);
   new PlayHandState(gameState);
   new HandResultState(gameState);
@@ -48,6 +33,6 @@ export function createGameStateMachine(
   // Add states to the state machine (order matters - first state is initial)
   sm.addState(loadingState);
   sm.addState(startMenuState);
-  sm.addState(gameState);    
+  sm.addState(gameState);
   return sm;
 }

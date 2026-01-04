@@ -1,8 +1,3 @@
-/**
- * Scene manager - manages scene lifecycle and transitions.
- * Called by UIManager to switch between scenes.
- */
-
 import type { Application } from 'pixi.js';
 import { GameScene } from './types.js';
 import { EventBus } from './event-bus.js';

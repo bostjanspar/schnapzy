@@ -1,8 +1,3 @@
-/**
- * Loading state - handles initial asset loading.
- * Transitions to START_MENU when ASSET_LOADED event is received.
- */
-
 import { GameBaseState } from '../game-base-state.js';
 import { LOADING, START_MENU } from '../game-state.enum.js';
 import type { SimpleEvent } from '../../sm/types.js';
@@ -28,7 +23,7 @@ export class LoadingState extends GameBaseState {
 
   override onEvent(simpleEvent: SimpleEvent): boolean {
     log.debug(`LoadingState: Received event ${simpleEvent.type}`);
-    
+
     if (simpleEvent.type === GAME_EVENT_IDS.ASSET_LOADED) {
       this.transition(START_MENU as StateEnum);
       return true;

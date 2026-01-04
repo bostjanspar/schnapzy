@@ -1,16 +1,6 @@
-/**
- * Manages multiple state machines with priority-based event handling.
- *
- * Events are distributed to state machines in priority order (highest first).
- * The first state machine to consume an event stops further propagation.
- */
-
 import { StateMachine } from './state-machine.js';
 import type { SimpleEvent } from './types.js';
 
-/**
- * Manages multiple state machines and distributes events to them.
- */
 export class StateMachineManager {
   private stateMachines: StateMachine[] = [];
   private debug: boolean;
@@ -19,10 +9,6 @@ export class StateMachineManager {
     this.debug = debug;
   }
 
-  /**
-   * Registers a state machine with this manager.
-   * State machines are sorted by priority (highest first).
-   */
   public registerStateMachine(sm: StateMachine): void {
     if (this.stateMachines.includes(sm)) {
       console.warn('State machine has already been registered.');
@@ -33,9 +19,6 @@ export class StateMachineManager {
     this.stateMachines.sort((a, b) => b.priority - a.priority);
   }
 
-  /**
-   * Removes a state machine from this manager.
-   */
   public deregisterStateMachine(sm: StateMachine): void {
     const index = this.stateMachines.indexOf(sm);
     if (index > -1) {
@@ -43,11 +26,6 @@ export class StateMachineManager {
     }
   }
 
-  /**
-   * Distributes an event to all registered state machines in priority order.
-   * FIX for Issue 4: Uses simpleEvent.type instead of undefined 'event' variable.
-   * FIX for Issue 5: Added debug mode for event consumption logging.
-   */
   public onEvent(simpleEvent: SimpleEvent): void {
     for (const sm of this.stateMachines) {
       if (sm.onEvent(simpleEvent)) {
@@ -68,18 +46,12 @@ export class StateMachineManager {
     }
   }
 
-  /**
-   * Starts all registered state machines.
-   */
   public startAll(): void {
     for (const sm of this.stateMachines) {
       sm.start();
     }
   }
 
-  /**
-   * Enables or disables debug mode.
-   */
   public setDebug(debug: boolean): void {
     this.debug = debug;
   }

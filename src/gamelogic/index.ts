@@ -1,25 +1,3 @@
-/**
- * Schnapsen Game Logic Library
- *
- * A three-layer architecture for implementing the Schnapsen card game.
- *
- * Layer 1: SchnapsenGame - Overall game manager (game points, dealer, phases)
- * Layer 2: Deal - Card/deck manager (hands, talon, marriages, trump exchange)
- * Layer 3: Trick - Current trick manager (lead, follow, winner, points)
- *
- * @example
- * ```typescript
- * import { SchnapsenGame, PLAYER_ONE } from '@/gamelogic';
- *
- * const game = new SchnapsenGame();
- * game.startGame();
- *
- * // Play cards through the main facade
- * game.playCard(PLAYER_ONE, { suit: HEARTS, rank: ACE });
- * ```
- */
-
-// Main game class
 export { SchnapsenGame } from './schnapsen-game.js';
 
 // Layer classes

@@ -1,8 +1,3 @@
-/**
- * Start menu scene - main menu with language selector and start button.
- * Emits START_CLICKED when user clicks start.
- */
-
 import { Text, Container, type Application } from 'pixi.js';
 import { BaseScene } from './base-scene.js';
 import { EventBus} from './event-bus.js';

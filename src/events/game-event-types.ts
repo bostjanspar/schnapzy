@@ -1,8 +1,3 @@
-/**
- * Typed event classes extending the base SimpleEvent.
- * Provides type safety for events that carry structured data.
- */
-
 import { SimpleEvent } from '../sm/types.js';
 import { GAME_EVENT_IDS } from './game-event-ids.js';
 

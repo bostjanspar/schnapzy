@@ -1,8 +1,3 @@
-/**
- * Dealer selection scene - animates the dealer election process.
- * Emits DEALER_ANIM_COMPLETE when animation finishes.
- */
-
 import { Text, Container, type Application } from 'pixi.js';
 import { BaseScene } from './base-scene.js';
 import { EventBus } from './event-bus.js';

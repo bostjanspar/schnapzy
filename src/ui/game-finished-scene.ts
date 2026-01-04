@@ -1,8 +1,3 @@
-/**
- * Game finished scene - displays the final game winner and statistics.
- * Emits PLAY_AGAIN_CLICKED when user clicks play again.
- */
-
 import { Text, Container, type Application } from 'pixi.js';
 import { BaseScene } from './base-scene.js';
 import { EventBus } from './event-bus.js';

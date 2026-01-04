@@ -1,8 +1,3 @@
-/**
- * Deal result scene - displays the winner of the current deal.
- * Emits CONTINUE_CLICKED when user clicks continue.
- */
-
 import { Text, Container, type Application } from 'pixi.js';
 import { BaseScene } from './base-scene.js';
 import { EventBus } from './event-bus.js';

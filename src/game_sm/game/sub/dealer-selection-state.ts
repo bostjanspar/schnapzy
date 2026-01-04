@@ -1,8 +1,3 @@
-/**
- * Dealer selection state - animates the dealer election process.
- * Transitions to DEAL_CARDS when DEALER_ANIM_COMPLETE event is received.
- */
-
 import { GameBaseState } from '../../game-base-state.js';
 import type { GameState } from '../game-state.js';
 import { DEAL_CARDS, DEALER_SELECTION, PLAY_HAND } from '../../game-state.enum.js';
@@ -19,7 +14,7 @@ export class DealerSelectionState extends GameBaseState {
 
   onEntry(): void {
     log.debug('Entering DealerSelectionState');
-    //create simple timer call 
+    //create simple timer call
 
     //temporary  move to next state
     setTimeout(() => {
@@ -40,5 +35,5 @@ export class DealerSelectionState extends GameBaseState {
       return true;
     }
     return false;
-  }  
+  }
 }

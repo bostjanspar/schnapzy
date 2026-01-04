@@ -1,8 +1,3 @@
-/**
- * Loading scene - displays loading progress and loads game assets.
- * Emits ASSET_LOADED when loading is complete.
- */
-
 import { Text, Container, type Application } from 'pixi.js';
 import { BaseScene } from './base-scene.js';
 import { EventBus } from './event-bus.js';

@@ -1,3 +1,0 @@
-
-create image asset class under @src/ui  and load  all card images under public folder 
-

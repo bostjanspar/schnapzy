@@ -1,15 +1,4 @@
-/**
- * Shared type definitions for the state machine library.
- */
-
-/**
- * Simple event structure for state machine communication.
- * Framework-agnostic - can be used with any event system.
- *
- * @template TType - The type of the event type identifier (string, number, or enum)
- */
 export class SimpleEvent<TType extends string | number = string> {
-  /** The event type identifier */
   type: TType;
 
   constructor(type: TType) {
@@ -17,19 +6,11 @@ export class SimpleEvent<TType extends string | number = string> {
   }
 }
 
-/**
- * Optional configuration for state machine behavior.
- */
 export interface StateMachineOptions {
-  /** Enable debug logging for state transitions and event handling */
   debug?: boolean;
-  /** Enable event consumption logging */
   enableEventLogging?: boolean;
 }
 
-/**
- * Custom error class for state machine related errors.
- */
 export class StateMachineError extends Error {
   public stateId: string | number | undefined;
 
@@ -43,9 +24,6 @@ export class StateMachineError extends Error {
   }
 }
 
-/**
- * Error thrown when a target state cannot be found in the hierarchy.
- */
 export class StateNotFoundError extends StateMachineError {
   constructor(
     targetStateId: string | number,

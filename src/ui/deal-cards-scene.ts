@@ -1,13 +1,6 @@
-/**
- * Deal cards scene - displays cards with animations.
- * Shows player hand at bottom (5 cards front-facing) and deck in middle (card backs).
- * Emits DEAL_ANIM_COMPLETE when deal animation finishes.
- */
-
 import { Container, type Application, Sprite } from 'pixi.js';
 import { BaseScene } from './base-scene.js';
 import { EventBus } from './event-bus.js';
-import { GAME_EVENT_IDS } from '../events/index.js';
 import { GameScene } from './types.js';
 import { CardAssets } from './card-assets.js';
 import type { Card, Suit, Rank } from '../gamelogic/types.js';
