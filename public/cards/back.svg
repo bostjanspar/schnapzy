@@ -22,13 +22,13 @@
   </defs>
 
   <!-- rounded card filled with the squiggle pattern (no internal artwork) -->
-  <rect x="0.25" y="0.25" width="166.5869141" height="241.1669922" rx="7" ry="7" fill="url(#squiggle)" />
+  <path d="M166.8369141,235.5478516c0,3.7773438-3.0869141,6.8691406-6.8710938,6.8691406H7.1108398c-3.7749023,0-6.8608398-3.0917969-6.8608398-6.8691406V7.1201172C0.25,3.3427734,3.3359375,0.25,7.1108398,0.25h152.8549805c3.7841797,0,6.8710938,3.0927734,6.8710938,6.8701172v228.4277344z" fill="url(#squiggle)" />
 
   <!-- subtle inner vignette to match sample shading -->
   <rect x="6" y="6" width="154.5869141" height="229.1669922" rx="6" ry="6" fill="url(#vign)" opacity="0.18" />
 
-  <!-- thin border to match clubs card visual (primary color) -->
-  <rect x="0.25" y="0.25" width="166.5869141" height="241.1669922" rx="7" ry="7" fill="none" stroke="#b21f2d" stroke-width="1" />
+  <!-- white border -->
+  <path d="M166.8369141,235.5478516c0,3.7773438-3.0869141,6.8691406-6.8710938,6.8691406H7.1108398c-3.7749023,0-6.8608398-3.0917969-6.8608398-6.8691406V7.1201172C0.25,3.3427734,3.3359375,0.25,7.1108398,0.25h152.8549805c3.7841797,0,6.8710938,3.0927734,6.8710938,6.8701172v228.4277344z" fill="none" stroke="#fff" stroke-width="3" />
 
   <!-- branding text removed per user request -->
 </svg>
