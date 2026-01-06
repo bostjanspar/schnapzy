@@ -1,14 +1,3 @@
-import {
-    CLUBS,
-    DIAMONDS,
-    HEARTS,
-    SPADES,
-    JACK,
-    QUEEN,
-    KING,
-    TEN,
-    ACE,
-} from '../types.js';
 import type {
     Card,
     Suit,

@@ -99,7 +99,7 @@ export function selectLeadCard(hand: Card[], beliefState: BeliefState): Card {
  * Try to win high value tricks (>= 10 pts).
  * Otherwise dump low cards.
  */
-export function selectFollowCard(hand: Card[], leadCard: Card, beliefState: BeliefState, validMoves: Card[]): Card {
+export function selectFollowCard(_hand: Card[], leadCard: Card, _beliefState: BeliefState, validMoves: Card[]): Card {
     const leadValue = getCardValue(leadCard);
 
     // Try to win if trick is valuable

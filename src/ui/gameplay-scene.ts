@@ -27,7 +27,7 @@ export class GameplayScene extends BaseScene {
   private playerTrickPileContainer: Container;
   
   // Action callbacks
-  private onCardPlayed?: (card: Card) => void;
+  private onCardPlayed: ((card: Card) => void) | undefined;
   
   constructor(app: Application, eventBus: EventBus) {
     super(app, eventBus, GameScene.GAMEPLAY);
@@ -176,7 +176,7 @@ export class GameplayScene extends BaseScene {
     }
   }
   
-  private handleCardClick(card: Card, sprite: Sprite): void {
+  private handleCardClick(card: Card, _sprite: Sprite): void {
     if (!this.stateReader) return;
     
     // Validate play (read-only check)
@@ -195,11 +195,11 @@ export class GameplayScene extends BaseScene {
   // Animation Methods (for future use)
   // =========================================================================
   
-  async animateCardPlay(player: Player, card: Card): Promise<void> {
+  async animateCardPlay(_player: Player, _card: Card): Promise<void> {
     // TODO: Implement card play animation
   }
   
-  async animateTrickCollection(winner: Player): Promise<void> {
+  async animateTrickCollection(_winner: Player): Promise<void> {
     // TODO: Implement trick collection animation
   }
   

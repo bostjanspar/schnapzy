@@ -9,7 +9,6 @@ import type {
     Player,
     TrickResult,
     HandResult,
-    TalonState,
 } from './types.js';
 import { Talon } from './talon.js';
 import { PlayerState } from './player-state.js';

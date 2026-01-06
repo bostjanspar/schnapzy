@@ -39,10 +39,6 @@ export interface Card {
   rank: Rank;
 }
 
-export function getCardValue(card: Card): number {
-  return RANK_VALUES[card.rank];
-}
-
 // ============================================================================
 // Player Types
 // ============================================================================

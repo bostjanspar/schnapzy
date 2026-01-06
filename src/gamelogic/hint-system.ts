@@ -1,5 +1,4 @@
 import type { Card, Suit, TalonState } from './types.js';
-import { CPUPlayer } from './cpu/cpu-player.js';
 import { selectLeadCard, selectFollowCard } from './cpu/heuristics.js';
 import { BeliefState } from './cpu/belief-state.js';
 import { getValidPlays } from './rules.js';
@@ -35,8 +34,8 @@ export class HintSystem {
         trumpSuit: Suit,
         trumpCard: Card | null,
         leadCard: Card | null,
-        myPoints: number,
-        oppPoints: number
+        _myPoints: number,
+        _oppPoints: number
     ): Hint {
         // 1. Build Belief State
         const beliefState = new BeliefState(

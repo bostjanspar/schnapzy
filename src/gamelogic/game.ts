@@ -112,7 +112,7 @@ export class Game {
 
     public playCard(player: Player, card: Card): void {
         this.validateAction();
-        const outcome = this.currentHand!.playCard(player, card);
+        this.currentHand!.playCard(player, card);
 
         if (this.currentHand!.isCompleted) {
             this.processHandCompletion();

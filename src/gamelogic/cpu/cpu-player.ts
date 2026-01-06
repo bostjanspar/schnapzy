@@ -16,10 +16,8 @@ import { getValidPlays } from '../rules.js';
 
 export class CPUPlayer {
     private beliefState: BeliefState;
-    private myPlayerId: Player;
 
-    constructor(myPlayerId: Player) {
-        this.myPlayerId = myPlayerId;
+    constructor(_myPlayerId: Player) {
         // BeliefState initialized on game start
         this.beliefState = null!;
     }
@@ -30,7 +28,7 @@ export class CPUPlayer {
 
     public updateState(
         myHand: Card[],
-        playedCards: Card[], // All played cards history or just recent? BeliefState expects accumulated.
+        _playedCards: Card[], // All played cards history or just recent? BeliefState expects accumulated.
         talonState: TalonState,
         talonSize: number
     ): void {
@@ -56,7 +54,7 @@ export class CPUPlayer {
         // For now, let's assume `recordPlayedCard` exists or add it.
     }
 
-    public onOpponentPlay(card: Card): void {
+    public onOpponentPlay(_card: Card): void {
         // Record formatted update
         // this.beliefState.recordPlayedCard(card);
     }
@@ -117,7 +115,7 @@ export class CPUPlayer {
         return shouldExchangeTrumpJack(trumpCard);
     }
 
-    public shouldCloseTalon(myPoints: number, hand: Card[]): boolean {
+    public shouldCloseTalon(_myPoints: number, _hand: Card[]): boolean {
         // Simple heuristic: Close if we have good points > 50?
         // Or if Minimax says we win?
         // Simulating "if I close now" is complex Minimax.

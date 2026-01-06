@@ -1,14 +1,12 @@
 import {
     TALON_OPEN,
-    TALON_CLOSED,
-    TALON_EXHAUSTED,
 } from './types.js';
 import type {
     Card,
     Suit,
     TalonState,
-    Player,
     HandResult,
+    Player,
 } from './types.js';
 import { cardsEqual } from './card.js';
 import { PlayerState } from './player-state.js';
@@ -198,8 +196,8 @@ export function calculateHandResult(
     winner: Player,
     opponentPoints: number,
     opponentTricks: number,
-    wasClosed: boolean,
-    closerFailed: boolean
+    _wasClosed: boolean,
+    _closerFailed: boolean
 ): HandResult {
     // Game points:
     // 3 points (Schwarz): Opponent has 0 tricks.

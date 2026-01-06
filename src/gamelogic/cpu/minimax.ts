@@ -75,7 +75,7 @@ export function solve(
     // 3. Search
 
     let bestScore = isMaximizing ? -Infinity : Infinity;
-    let bestMove: Card | null = validMoves[0];
+    let bestMove: Card | null = validMoves[0] as Card;
 
     for (const card of validMoves) {
         // Create new state
@@ -113,13 +113,6 @@ export function solve(
             //    If `card` wins (result.winner === 'current'), CPU wins.
             //    If `result.winner === 'lead'`, Opponent wins.
 
-            const cpuPlayed = isMaximizing ? card : leadCard;
-            // logic: resolveTrick returns 'LEADER' or 'FOLLOWER'.
-            // if isMaximizing (CPU) is FOLLOWER:
-            //    winner=FOLLOWER -> CPU wins.
-            //    winner=LEADER -> Opponent wins.
-
-            const amIFollower = true; // Since leadCard exists
             const iAmCpu = isMaximizing;
 
             // Helper needed to determine absolute winner.
