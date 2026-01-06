@@ -1,14 +1,14 @@
 import { GameBaseState } from '../game-base-state.js';
 import { START_MENU, GAME } from '../game-state.enum.js';
 import type { SimpleEvent } from '../../sm/types.js';
-import type { SchnapsenGame } from '../../gamelogic/schnapsen-game.js';
+import type { Game } from '../../gamelogic/game.js';
 import type { UIManager } from '../../ui/ui-manager.js';
 import { GAME_EVENT_IDS } from '../../events/index.js';
 import type { StateEnum } from '../../sm/state.enum.js';
 import log from 'loglevel'
 
 export class StartMenuState extends GameBaseState {
-  constructor(game: SchnapsenGame, ui: UIManager) {
+  constructor(game: Game, ui: UIManager) {
     super(START_MENU as StateEnum, game, ui);
   }
 

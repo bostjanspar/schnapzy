@@ -2,16 +2,16 @@
 import { BaseState } from '../sm/base-state.js';
 import type { StateEnum } from '../sm/state.enum.js';
 import type { SimpleEvent } from '../sm/types.js';
-import type { SchnapsenGame } from '../gamelogic/schnapsen-game.js';
+import type { Game } from '../gamelogic/game.js';
 import type { UIManager } from '../ui/ui-manager.js';
 
 export abstract class GameBaseState extends BaseState {
-  public readonly game: SchnapsenGame;
+  public readonly game: Game;
   public readonly ui: UIManager;
 
   constructor(
     id: StateEnum,
-    game: SchnapsenGame,
+    game: Game,
     ui: UIManager,
 
   ) {

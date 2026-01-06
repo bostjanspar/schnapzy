@@ -1,6 +1,6 @@
 import './style.css';
 import { Application } from 'pixi.js';
-import { SchnapsenGame } from './gamelogic/index.js';
+import { Game } from './gamelogic/index.js';
 import { UIManager } from './ui/index.js';
 import { createGameStateMachine } from './game_sm/index.js';
 import log from 'loglevel'
@@ -23,14 +23,14 @@ async function init(): Promise<void> {
   await uiManager.initialize();
 
   // Initialize the game logic
-  const game = new SchnapsenGame();
+  const game = new Game();
   // Create and configure the game state machine
   const gameStateMachine = createGameStateMachine(game, uiManager);
 
   // Connect EventBus to StateMachine
   // All UI events flow directly to the state machine
   uiManager.getEventBus().setStateMachine(gameStateMachine);
-  
+
   // Start the state machine (will enter LOADING state)
   gameStateMachine.start();
 }

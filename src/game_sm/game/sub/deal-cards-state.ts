@@ -4,6 +4,7 @@ import type { SimpleEvent } from '../../../sm/types.js';
 import { GAME_EVENT_IDS } from '../../../events/index.js';
 import type { StateEnum } from '../../../sm/state.enum.js';
 import type { GameState } from '../game-state.js';
+import { GameStateReader } from '../../../ui/game-state-reader.js';
 
 export class DealCardsState extends GameBaseState {
   constructor(gameState: GameState) {
@@ -13,8 +14,8 @@ export class DealCardsState extends GameBaseState {
 
   onEntry(): void {
     // Get deal state from the game and show deal animation
-    const currentDeal = this.game.getCurrentDeal();
-    this.ui.dealCards(currentDeal);
+    const stateReader = new GameStateReader(this.game);
+    this.ui.showDealAnimation(stateReader);
   }
 
   onLeave(): void {

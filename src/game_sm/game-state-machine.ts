@@ -1,5 +1,5 @@
 import { StateMachine } from '../sm/state-machine.js';
-import type { SchnapsenGame } from '../gamelogic/schnapsen-game.js';
+import type { Game } from '../gamelogic/game.js';
 import type { UIManager } from '../ui/ui-manager.js';
 import { LoadingState } from './load/loading-state.js';
 import { StartMenuState } from './start-menu/start-menu-state.js';
@@ -12,7 +12,7 @@ import { PlayHandState } from './game/sub/play-hand-state.js';
 
 
 export function createGameStateMachine(
-  game: SchnapsenGame,
+  game: Game,
   ui: UIManager
 ): StateMachine {
   const sm = new StateMachine();

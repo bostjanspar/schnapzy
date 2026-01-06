@@ -2,6 +2,8 @@ import { type Application } from 'pixi.js';
 import { GameScene } from './types.js';
 import { EventBus } from './event-bus.js';
 import { SceneManager } from './scene-manager.js';
+import type { IGameStateReader } from './game-state-reader.js';
+import type { Card } from '../gamelogic/types.js';
 
 export class UIManager {
   private app: Application;
@@ -50,8 +52,25 @@ export class UIManager {
     this.sceneManager.transitionTo(GameScene.DEALER_SELECTION, data);
   }
 
-  dealCards(data: unknown): void {
-    this.sceneManager.transitionTo(GameScene.DEAL_CARDS, data);
+  showDealAnimation(gameStateReader: IGameStateReader): void {
+    this.sceneManager.transitionTo(GameScene.DEAL_ANIMATION, { gameStateReader });
+  }
+
+  startGameplay(
+    gameStateReader: IGameStateReader,
+    onCardPlayed: (card: Card) => void,
+  ): void {
+    this.sceneManager.transitionTo(GameScene.GAMEPLAY, {
+      gameStateReader,
+      onCardPlayed,
+    });
+  }
+
+  refreshGameplay(): void {
+    const scene = this.sceneManager.getScene(GameScene.GAMEPLAY);
+    if (scene && 'refreshFromState' in scene) {
+      (scene as any).refreshFromState();
+    }
   }
 
   showDealResult(data: { winnerName: string; points: number }): void {

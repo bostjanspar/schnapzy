@@ -5,7 +5,8 @@ import { BaseScene } from './base-scene.js';
 import { LoadingScene } from './loading-scene.js';
 import { StartMenuScene } from './start-menu-scene.js';
 import { DealerSelectionScene } from './dealer-selection-scene.js';
-import { DealCardsScene } from './deal-cards-scene.js';
+import { DealAnimationScene } from './deal-animation-scene.js';
+import { GameplayScene } from './gameplay-scene.js';
 import { DealResultScene } from './deal-result-scene.js';
 import { GameFinishedScene } from './game-finished-scene.js';
 
@@ -29,7 +30,8 @@ export class SceneManager {
       GameScene.DEALER_SELECTION,
       new DealerSelectionScene(this.app, this.eventBus),
     );
-    this.scenes.set(GameScene.DEAL_CARDS, new DealCardsScene(this.app, this.eventBus));
+    this.scenes.set(GameScene.DEAL_ANIMATION, new DealAnimationScene(this.app, this.eventBus));
+    this.scenes.set(GameScene.GAMEPLAY, new GameplayScene(this.app, this.eventBus));
     this.scenes.set(GameScene.DEAL_RESULT, new DealResultScene(this.app, this.eventBus));
     this.scenes.set(
       GameScene.GAME_FINISHED,
@@ -45,6 +47,10 @@ export class SceneManager {
       scene.visible = false;
       this.app.stage.addChild(scene);
     });
+  }
+
+  getScene(sceneType: GameScene): BaseScene | undefined {
+    return this.scenes.get(sceneType);
   }
 
   async transitionTo(sceneType: GameScene, data?: unknown): Promise<void> {

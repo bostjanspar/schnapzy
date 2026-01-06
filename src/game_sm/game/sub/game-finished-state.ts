@@ -33,7 +33,7 @@ export class GameFinishedState extends GameBaseState {
   override onEvent(simpleEvent: SimpleEvent): boolean {
     if (this.isEvent(simpleEvent, GAME_EVENT_IDS.PLAY_AGAIN_CLICKED)) {
       // Reset the game for a new session
-      // Note: SchnapsenGame doesn't have a reset method, so we create a new instance
+      // Note: Game doesn't have a reset method, so we create a new instance
       // The caller would need to handle this, or we could add a reset method
       // For now, we just transition back to the start menu
       this.transition(START_MENU as StateEnum);
