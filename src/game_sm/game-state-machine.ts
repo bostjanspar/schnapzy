@@ -5,7 +5,6 @@ import { LoadingState } from './load/loading-state.js';
 import { StartMenuState } from './start-menu/start-menu-state.js';
 import { GameFinishedState } from './game/sub/game-finished-state.js';
 import { GameState } from './game/game-state.js';
-import { DealerSelectionState } from './game/sub/dealer-selection-state.js';
 import { DealCardsState } from './game/sub/deal-cards-state.js';
 import { HandResultState } from './game/sub/hand-result-state.js';
 import { PlayHandState } from './game/sub/play-hand-state.js';
@@ -23,7 +22,6 @@ export function createGameStateMachine(
   const gameState = new GameState(game, ui);
 
   //add sun-states , not order is important
-  new DealerSelectionState(gameState);
   new DealCardsState(gameState);
   new PlayHandState(gameState);
   new HandResultState(gameState);

@@ -16,10 +16,7 @@ import { Trick } from './trick.js';
 import { createDeck, shuffleDeck } from './card.js';
 import { isValidPlay, calculateHandResult, getPlayValidity } from './rules.js';
 
-// Wait, getOpponent is in types.ts according to my view_file earlier.
-// Re-checking imports.
-// types.ts exports: suit, rank, card, player, result types, enums.
-// Need to confirm if getOpponent is there. Yes, seen in view_file Step 93.
+
 
 export class Hand {
     public talon: Talon;
