@@ -16,7 +16,7 @@ export abstract class BaseScene extends Container {
 
   abstract init(): void;
 
-  abstract enter(data?: unknown): void;
+  abstract enter(): void;
 
   abstract exit(): void;
 

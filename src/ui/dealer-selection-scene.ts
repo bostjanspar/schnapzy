@@ -25,7 +25,11 @@ export class DealerSelectionScene extends BaseScene {
     window.addEventListener('resize', this.handleResize);
   }
 
-  enter(_data?: unknown): void {
+  setPlayers(_players: unknown[]): void {
+    // TODO: Store players for animation
+  }
+
+  enter(): void {
     this.visible = true;
     this.startDealerSelection();
   }

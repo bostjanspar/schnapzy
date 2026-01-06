@@ -25,9 +25,12 @@ export class DealAnimationScene extends BaseScene {
     window.addEventListener('resize', this.handleResize);
   }
   
-  enter(data?: { gameStateReader: IGameStateReader }): void {
+  prepare(gameStateReader: IGameStateReader): void {
+    this.stateReader = gameStateReader;
+  }
+
+  enter(): void {
     this.visible = true;
-    this.stateReader = data?.gameStateReader ?? null;
     this.animationPhase = 'DEALING';
     this.animationTimer = 0;
     

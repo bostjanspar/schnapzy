@@ -1,4 +1,5 @@
 import type { Application } from 'pixi.js';
+import log from 'loglevel';
 import { GameScene } from './types.js';
 import { EventBus } from './event-bus.js';
 import { BaseScene } from './base-scene.js';
@@ -52,15 +53,15 @@ export class SceneManager {
     return this.scenes.get(sceneType);
   }
 
-  async transitionTo(sceneType: GameScene, data?: unknown): Promise<void> {
+  transitionTo(sceneType: GameScene): void {
     if (this.transitionInProgress) {
-      console.warn('Transition already in progress');
+      log.warn('Transition already in progress. Transition request to ' + sceneType + 'ignored. Current scene: ' + (this.currentScene ? this.currentScene.sceneType : 'none'));
       return;
     }
 
     const nextScene = this.scenes.get(sceneType);
     if (!nextScene) {
-      console.error(`Scene ${sceneType} not found`);
+      log.error(`Scene ${sceneType} not found`);
       return;
     }
 
@@ -73,7 +74,7 @@ export class SceneManager {
 
     // Enter new scene
     this.currentScene = nextScene;
-    this.currentScene.enter(data);
+    this.currentScene.enter();
 
     this.transitionInProgress = false;
   }

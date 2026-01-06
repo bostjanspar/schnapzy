@@ -9,6 +9,9 @@ export class DealResultScene extends BaseScene {
   private winnerText: Text;
   private continueText: Text;
 
+  private winnerName: string = '';
+  private points: number = 0;
+
   constructor(app: Application, eventBus: EventBus) {
     super(app, eventBus, GameScene.DEAL_RESULT);
     this.container = new Container();
@@ -36,21 +39,23 @@ export class DealResultScene extends BaseScene {
     window.addEventListener('resize', this.handleResize);
   }
 
-  enter(data?: unknown): void {
-    this.visible = true;
-    this.showDealWinner(data);
+  setResult(winnerName: string, points: number): void {
+    this.winnerName = winnerName;
+    this.points = points;
   }
 
-  private showDealWinner(data?: unknown): void {
+  enter(): void {
+    this.visible = true;
+    this.showDealWinner();
+  }
+
+  private showDealWinner(): void {
     // TODO: Display deal result
     // - Winning player highlight
     // - Points awarded
     // - Animation effects
 
-    const winnerName = (data as { winnerName?: string })?.winnerName ?? 'Player 1';
-    const points = (data as { points?: number })?.points ?? 0;
-
-    this.winnerText.text = `${winnerName} wins the deal!\nPoints: ${points}`;
+    this.winnerText.text = `${this.winnerName} wins the deal!\nPoints: ${this.points}`;
   }
 
   private onContinueClicked = (): void => {

@@ -41,7 +41,7 @@ export class StartMenuScene extends BaseScene {
     window.addEventListener('resize', this.handleResize);
   }
 
-  enter(_data?: unknown): void {
+  enter(): void {
     this.visible = true;
   }
 

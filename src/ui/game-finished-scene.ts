@@ -8,6 +8,8 @@ export class GameFinishedScene extends BaseScene {
   private winnerText: Text;
   private scoresText: Text;
   private playAgainText: Text;
+  private winnerName: string = 'Player 1';
+  private scores: string = 'P1: 0 | P2: 0';
 
   constructor(app: Application, eventBus: EventBus) {
     super(app, eventBus, GameScene.GAME_FINISHED);
@@ -41,23 +43,25 @@ export class GameFinishedScene extends BaseScene {
     window.addEventListener('resize', this.handleResize);
   }
 
-  enter(data?: unknown): void {
-    this.visible = true;
-    this.showGameWinner(data);
+  setResult(winnerName: string, scores: string): void {
+    this.winnerName = winnerName;
+    this.scores = scores;
   }
 
-  private showGameWinner(data?: unknown): void {
+  enter(): void {
+    this.visible = true;
+    this.showGameWinner();
+  }
+
+  private showGameWinner(): void {
     // TODO: Display game over screen
     // - Game winner
     // - Final scores
     // - Victory animation
     // - Statistics
 
-    const winnerName = (data as { winnerName?: string })?.winnerName ?? 'Player 1';
-    const scores = (data as { scores?: string })?.scores ?? 'P1: 0 | P2: 0';
-
-    this.winnerText.text = `${winnerName} WINS THE GAME!`;
-    this.scoresText.text = `Final Scores: ${scores}`;
+    this.winnerText.text = `${this.winnerName} WINS THE GAME!`;
+    this.scoresText.text = `Final Scores: ${this.scores}`;
   }
 
   private onPlayAgainClicked = (): void => {

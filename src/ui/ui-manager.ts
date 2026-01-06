@@ -49,21 +49,30 @@ export class UIManager {
   }
 
   startDealerSelection(data: { players: unknown[] }): void {
-    this.sceneManager.transitionTo(GameScene.DEALER_SELECTION, data);
+    const scene = this.sceneManager.getScene(GameScene.DEALER_SELECTION);
+    if (scene && 'setPlayers' in scene) {
+      (scene as any).setPlayers(data.players);
+    }
+    this.sceneManager.transitionTo(GameScene.DEALER_SELECTION);
   }
 
   showDealAnimation(gameStateReader: IGameStateReader): void {
-    this.sceneManager.transitionTo(GameScene.DEAL_ANIMATION, { gameStateReader });
+    const scene = this.sceneManager.getScene(GameScene.DEAL_ANIMATION);
+    if (scene && 'prepare' in scene) {
+      (scene as any).prepare(gameStateReader);
+    }
+    this.sceneManager.transitionTo(GameScene.DEAL_ANIMATION);
   }
 
   startGameplay(
     gameStateReader: IGameStateReader,
     onCardPlayed: (card: Card) => void,
   ): void {
-    this.sceneManager.transitionTo(GameScene.GAMEPLAY, {
-      gameStateReader,
-      onCardPlayed,
-    });
+    const scene = this.sceneManager.getScene(GameScene.GAMEPLAY);
+    if (scene && 'prepare' in scene) {
+      (scene as any).prepare({ gameStateReader, onCardPlayed });
+    }
+    this.sceneManager.transitionTo(GameScene.GAMEPLAY);
   }
 
   refreshGameplay(): void {
@@ -74,11 +83,19 @@ export class UIManager {
   }
 
   showDealResult(data: { winnerName: string; points: number }): void {
-    this.sceneManager.transitionTo(GameScene.DEAL_RESULT, data);
+    const scene = this.sceneManager.getScene(GameScene.DEAL_RESULT);
+    if (scene && 'setResult' in scene) {
+      (scene as any).setResult(data.winnerName, data.points);
+    }
+    this.sceneManager.transitionTo(GameScene.DEAL_RESULT);
   }
 
   showGameFinished(data: { winnerName: string; scores: string }): void {
-    this.sceneManager.transitionTo(GameScene.GAME_FINISHED, data);
+    const scene = this.sceneManager.getScene(GameScene.GAME_FINISHED);
+    if (scene && 'setResult' in scene) {
+      (scene as any).setResult(data.winnerName, data.scores);
+    }
+    this.sceneManager.transitionTo(GameScene.GAME_FINISHED);
   }
 
   destroy(): void {

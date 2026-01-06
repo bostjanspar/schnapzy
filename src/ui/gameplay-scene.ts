@@ -11,9 +11,6 @@ import type { Card, Player } from '../gamelogic/types.js';
 export interface GameplaySceneData {
   gameStateReader: IGameStateReader;
   onCardPlayed?: (card: Card) => void;
-  onMarriageDeclared?: (suit: string) => void;
-  onTalonClosed?: () => void;
-  onTrumpExchanged?: () => void;
 }
 
 export class GameplayScene extends BaseScene {
@@ -25,7 +22,7 @@ export class GameplayScene extends BaseScene {
   private trickAreaContainer: Container;
   private cpuTrickPileContainer: Container;
   private playerTrickPileContainer: Container;
-  
+
   // Action callbacks
   private onCardPlayed: ((card: Card) => void) | undefined;
   
@@ -81,11 +78,13 @@ export class GameplayScene extends BaseScene {
     this.playerTrickPileContainer.y = h * 0.75;
   }
   
-  enter(data?: GameplaySceneData): void {
+  prepare(data: GameplaySceneData): void {
+    this.stateReader = data.gameStateReader;
+    this.onCardPlayed = data.onCardPlayed;
+  }
+
+  enter(): void {
     this.visible = true;
-    this.stateReader = data?.gameStateReader ?? null;
-    this.onCardPlayed = data?.onCardPlayed;
-    
     this.renderFromState();
   }
   
