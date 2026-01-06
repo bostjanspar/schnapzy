@@ -1,7 +1,7 @@
 import type { Game } from '../gamelogic/game.js';
 import type { Hand } from '../gamelogic/hand.js';
 import type { Card, Player, Suit, TalonState, GamePhase } from '../gamelogic/types.js';
-import { PLAYER_ONE, PLAYER_TWO } from '../gamelogic/types.js';
+import { PLAYER_HUMAN, PLAYER_CPU } from '../gamelogic/types.js';
 
 export interface IGameStateReader {
   // Game-level
@@ -136,7 +136,7 @@ export class GameStateReader implements IGameStateReader {
     }
     
     // Check for follow card (opponent of leader)
-    const players = [PLAYER_ONE, PLAYER_TWO];
+    const players = [PLAYER_HUMAN, PLAYER_CPU];
     for (const p of players) {
       if (p !== leadPlayer) {
         const followCard = hand.currentTrick.getCardPlayedBy(p);

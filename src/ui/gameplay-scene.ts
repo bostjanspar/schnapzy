@@ -99,12 +99,12 @@ export class GameplayScene extends BaseScene {
   private renderFromState(): void {
     if (!this.stateReader) return;
     
-    const playerHand = this.stateReader.getPlayerHand('PLAYER_ONE' as any);
-    const cpuHand = this.stateReader.getPlayerHand('PLAYER_TWO' as any);
+    const playerHand = this.stateReader.getPlayerHand('PLAYER_HUMAN' as any);
+    const cpuHand = this.stateReader.getPlayerHand('PLAYER_CPU' as any);
     const trumpCard = this.stateReader.getTrumpCard();
     const talonSize = this.stateReader.getTalonSize();
-    const p1Points = this.stateReader.getGamePoints('PLAYER_ONE' as any);
-    const p2Points = this.stateReader.getGamePoints('PLAYER_TWO' as any);
+    const p1Points = this.stateReader.getGamePoints('PLAYER_HUMAN' as any);
+    const p2Points = this.stateReader.getGamePoints('PLAYER_CPU' as any);
     
     // Render shared layout (interactive player hand)
     this.tableLayout.renderPlayerHand(playerHand, true);
@@ -131,7 +131,7 @@ export class GameplayScene extends BaseScene {
       sprite.scale.set(SCALE.TRICK);
       
       // Position based on player (CPU top, Player bottom)
-      if (player === 'PLAYER_TWO') {
+      if (player === 'PLAYER_CPU') {
         sprite.y = -Y_OFFSET * SCALE.TRICK;
       } else {
         sprite.y = -Y_OFFSET * SCALE.TRICK;
@@ -148,8 +148,8 @@ export class GameplayScene extends BaseScene {
     
     if (!this.stateReader) return;
     
-    const cpuTricks = this.stateReader.getPlayerTricksWon('PLAYER_TWO' as any);
-    const playerTricks = this.stateReader.getPlayerTricksWon('PLAYER_ONE' as any);
+    const cpuTricks = this.stateReader.getPlayerTricksWon('PLAYER_CPU' as any);
+    const playerTricks = this.stateReader.getPlayerTricksWon('PLAYER_HUMAN' as any);
     
     // CPU trick pile
     const cpuStackCount = Math.min(cpuTricks, 5);
@@ -178,7 +178,7 @@ export class GameplayScene extends BaseScene {
     if (!this.stateReader) return;
     
     // Validate play (read-only check)
-    const error = this.stateReader.canPlayerPlayCard('PLAYER_ONE' as any, card);
+    const error = this.stateReader.canPlayerPlayCard('PLAYER_HUMAN' as any, card);
     if (error) {
       // TODO: Show error feedback (shake animation, tooltip, etc.)
       console.warn('Invalid play:', error);

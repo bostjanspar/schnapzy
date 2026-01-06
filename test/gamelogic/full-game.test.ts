@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { Game } from '../../src/gamelogic/game.js';
 import { CPUPlayer } from '../../src/gamelogic/cpu/cpu-player.js';
 import {
-    PLAYER_ONE,
-    PLAYER_TWO,
+    PLAYER_HUMAN,
+    PLAYER_CPU,
     IN_PROGRESS,
     GAME_OVER,
     Card,
@@ -16,11 +16,11 @@ describe('Schnapsen Full Game Integration', () => {
         const game = new Game();
         game.startGame();
 
-        const cpu = new CPUPlayer(PLAYER_TWO);
+        const cpu = new CPUPlayer(PLAYER_CPU);
         const hand = game.getCurrentHand()!;
 
         // Init CPU knowledge
-        const p2State = hand.players.get(PLAYER_TWO)!;
+        const p2State = hand.players.get(PLAYER_CPU)!;
         cpu.initGame(
             p2State.getHand() as Card[],
             hand.talon.getTrumpCard()!,
@@ -49,9 +49,9 @@ describe('Schnapsen Full Game Integration', () => {
 
             const turnPlayer = currentHand.turnPlayer;
 
-            if (turnPlayer === PLAYER_ONE) {
+            if (turnPlayer === PLAYER_HUMAN) {
                 // P1 (Mock Opponent) just plays first valid card
-                const p1Hand = currentHand.players.get(PLAYER_ONE)!.getHand();
+                const p1Hand = currentHand.players.get(PLAYER_HUMAN)!.getHand();
                 // We need valid play
                 // If leading: any card.
                 // If following: valid card.
@@ -71,7 +71,7 @@ describe('Schnapsen Full Game Integration', () => {
                 let moved = false;
                 for (const card of p1Hand) {
                     try {
-                        game.playCard(PLAYER_ONE, card);
+                        game.playCard(PLAYER_HUMAN, card);
                         moved = true;
 
                         // Update CPU knowledge of P1's move
@@ -88,7 +88,7 @@ describe('Schnapsen Full Game Integration', () => {
 
             } else {
                 // CPU Turn (P2)
-                const p2Hand = currentHand.players.get(PLAYER_TWO)!.getHand() as Card[];
+                const p2Hand = currentHand.players.get(PLAYER_CPU)!.getHand() as Card[];
 
                 const leadCard = currentHand.currentTrick?.getLeadPlayer() ?
                     currentHand.currentTrick.getCardPlayedBy(currentHand.currentTrick.getLeadPlayer()!) ?? null
@@ -99,11 +99,11 @@ describe('Schnapsen Full Game Integration', () => {
                     leadCard,
                     hand.talon.getState(),
                     hand.talon.getTrumpSuit(),
-                    currentHand.players.get(PLAYER_TWO)!.getTotalPoints(),
-                    currentHand.players.get(PLAYER_ONE)!.getTotalPoints()
+                    currentHand.players.get(PLAYER_CPU)!.getTotalPoints(),
+                    currentHand.players.get(PLAYER_HUMAN)!.getTotalPoints()
                 );
 
-                game.playCard(PLAYER_TWO, move);
+                game.playCard(PLAYER_CPU, move);
 
                 // Update CPU knowledge of OWN move (if not auto-handled by CPU state maintenance)
                 // CPUPlayer logic assumes it updates its own hand via updateState?
@@ -112,7 +112,7 @@ describe('Schnapsen Full Game Integration', () => {
 
                 // Update belief state
                 // This is manual because we are simulating the Controller/UI
-                const newP2Hand = currentHand.players.get(PLAYER_TWO)!.getHand() as Card[];
+                const newP2Hand = currentHand.players.get(PLAYER_CPU)!.getHand() as Card[];
                 cpu.updateState(
                     newP2Hand,
                     [], // Played cards history - simplified/omitted for test unless CPU relies on it strictly

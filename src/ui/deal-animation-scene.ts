@@ -40,12 +40,12 @@ export class DealAnimationScene extends BaseScene {
   private renderFromState(): void {
     if (!this.stateReader) return;
     
-    const playerHand = this.stateReader.getPlayerHand('PLAYER_ONE' as any);
-    const cpuHand = this.stateReader.getPlayerHand('PLAYER_TWO' as any);
+    const playerHand = this.stateReader.getPlayerHand('PLAYER_HUMAN' as any);
+    const cpuHand = this.stateReader.getPlayerHand('PLAYER_CPU' as any);
     const trumpCard = this.stateReader.getTrumpCard();
     const talonSize = this.stateReader.getTalonSize();
-    const p1Points = this.stateReader.getGamePoints('PLAYER_ONE' as any);
-    const p2Points = this.stateReader.getGamePoints('PLAYER_TWO' as any);
+    const p1Points = this.stateReader.getGamePoints('PLAYER_HUMAN' as any);
+    const p2Points = this.stateReader.getGamePoints('PLAYER_CPU' as any);
     
     // Render all elements (no interaction in deal scene)
     this.tableLayout.renderPlayerHand(playerHand, false);

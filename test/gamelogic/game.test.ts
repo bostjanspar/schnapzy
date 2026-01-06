@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Game } from '../../src/gamelogic/game.js';
 import {
-    PLAYER_ONE,
-    PLAYER_TWO,
+    PLAYER_HUMAN,
+    PLAYER_CPU,
     IN_PROGRESS,
     GAME_OVER,
     HAND_COMPLETE
@@ -19,9 +19,9 @@ describe('Game Orchestration', () => {
         game.startGame();
 
         expect(game.getGamePhase()).toBe(IN_PROGRESS);
-        expect(game.getGamePoints(PLAYER_ONE)).toBe(7);
-        expect(game.getGamePoints(PLAYER_TWO)).toBe(7);
-        expect(game.getDealer()).toBe(PLAYER_ONE);
+        expect(game.getGamePoints(PLAYER_HUMAN)).toBe(7);
+        expect(game.getGamePoints(PLAYER_CPU)).toBe(7);
+        expect(game.getDealer()).toBe(PLAYER_HUMAN);
         expect(game.getCurrentHand()).toBeDefined();
     });
 
@@ -58,16 +58,16 @@ describe('Game Orchestration', () => {
         // Workaround: Use `(game as any).handleHandResult(...)`.
 
         (game as any).handleHandResult({
-            winner: PLAYER_TWO,
+            winner: PLAYER_CPU,
             pointsWon: 2,
             opponentPoints: 0,
             opponentTricks: 0
         });
 
-        expect(game.getGamePoints(PLAYER_TWO)).toBe(5); // 7 - 2
-        expect(game.getGamePoints(PLAYER_ONE)).toBe(7);
+        expect(game.getGamePoints(PLAYER_CPU)).toBe(5); // 7 - 2
+        expect(game.getGamePoints(PLAYER_HUMAN)).toBe(7);
         expect(game.getGamePhase()).toBe(HAND_COMPLETE);
-        expect(game.getDealer()).toBe(PLAYER_TWO); // Rotated
+        expect(game.getDealer()).toBe(PLAYER_CPU); // Rotated
 
         // Start next hand
         game.startNewHand();
@@ -80,20 +80,20 @@ describe('Game Orchestration', () => {
 
         // P1 wins 7 points immediately (e.g. 3 + 3 + 1)
         (game as any).handleHandResult({
-            winner: PLAYER_ONE,
+            winner: PLAYER_HUMAN,
             pointsWon: 7,
             opponentPoints: 0,
             opponentTricks: 0
         });
 
-        expect(game.getGamePoints(PLAYER_ONE)).toBe(0);
-        expect(game.getWinner()).toBe(PLAYER_ONE);
+        expect(game.getGamePoints(PLAYER_HUMAN)).toBe(0);
+        expect(game.getWinner()).toBe(PLAYER_HUMAN);
         expect(game.getGamePhase()).toBe(GAME_OVER);
     });
 
     it('should explain invalid move via canPlayerPlayCard', () => {
         game.startGame();
-        const p1 = PLAYER_ONE;
+        const p1 = PLAYER_HUMAN;
         const hand = game.getCurrentHand()!;
         
         // Dealer is P1, so P2 leads. P1 moving is out of turn.

@@ -43,15 +43,15 @@ export interface Card {
 // Player Types
 // ============================================================================
 
-export const PLAYER_ONE = 'PLAYER_ONE' as const;
-export const PLAYER_TWO = 'PLAYER_TWO' as const;
+export const PLAYER_HUMAN = 'PLAYER_HUMAN' as const;
+export const PLAYER_CPU = 'PLAYER_CPU' as const;
 
 export type Player =
-  | typeof PLAYER_ONE
-  | typeof PLAYER_TWO;
+  | typeof PLAYER_HUMAN
+  | typeof PLAYER_CPU;
 
 export function getOpponent(player: Player): Player {
-  return player === PLAYER_ONE ? PLAYER_TWO : PLAYER_ONE;
+  return player === PLAYER_HUMAN ? PLAYER_CPU : PLAYER_HUMAN;
 }
 
 // ============================================================================

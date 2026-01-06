@@ -49,20 +49,34 @@ export class SceneManager {
     });
   }
 
+  public showLoadingScreen(): void {
+    if (this.transitionTo(GameScene.LOADING) && this.currentScene instanceof LoadingScene) {
+      const loadingScene = this.currentScene as LoadingScene;
+      loadingScene.loadAssets();
+    }
+  }
+
+
+
   getScene(sceneType: GameScene): BaseScene | undefined {
     return this.scenes.get(sceneType);
   }
 
-  transitionTo(sceneType: GameScene): void {
+  transitionTo(sceneType: GameScene): boolean {
     if (this.transitionInProgress) {
       log.warn('Transition already in progress. Transition request to ' + sceneType + 'ignored. Current scene: ' + (this.currentScene ? this.currentScene.sceneType : 'none'));
-      return;
+      return false;
     }
 
     const nextScene = this.scenes.get(sceneType);
     if (!nextScene) {
       log.error(`Scene ${sceneType} not found`);
-      return;
+      return false;
+    }
+
+    if (this.currentScene === nextScene) {
+      log.warn(`UI Transition to already in scene ${sceneType}`);
+      return true;
     }
 
     this.transitionInProgress = true;
@@ -77,6 +91,7 @@ export class SceneManager {
     this.currentScene.enter();
 
     this.transitionInProgress = false;
+    return true;
   }
 
   update(delta: number): void {

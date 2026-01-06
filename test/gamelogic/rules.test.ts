@@ -18,7 +18,7 @@ import {
     KING,
     QUEEN,
     JACK,
-    PLAYER_ONE,
+    PLAYER_HUMAN,
     Card
 } from '../../src/gamelogic/types.js';
 
@@ -105,31 +105,31 @@ describe('Rules', () => {
 
     describe('calculateHandResult', () => {
         it('awards 1 point for normal win', () => {
-            const result = calculateHandResult(PLAYER_ONE, 40, 2, false, false);
+            const result = calculateHandResult(PLAYER_HUMAN, 40, 2, false, false);
             expect(result.pointsWon).toBe(1);
         });
 
         it('awards 2 points for Schneider (<33)', () => {
-            const result = calculateHandResult(PLAYER_ONE, 30, 2, false, false);
+            const result = calculateHandResult(PLAYER_HUMAN, 30, 2, false, false);
             expect(result.pointsWon).toBe(2);
         });
 
         it('awards 3 points for Schwarz (0 tricks)', () => {
-            const result = calculateHandResult(PLAYER_ONE, 0, 0, false, false);
+            const result = calculateHandResult(PLAYER_HUMAN, 0, 0, false, false);
             expect(result.pointsWon).toBe(3);
         });
     });
 
     describe('canDeclareMarriage', () => {
         it('should return false if player has not won any tricks', () => {
-            const player = new PlayerState(PLAYER_ONE);
+            const player = new PlayerState(PLAYER_HUMAN);
             player.addCards([{ suit: HEARTS, rank: KING }, { suit: HEARTS, rank: QUEEN }]);
-            
+
             expect(canDeclareMarriage(player, HEARTS)).toBe(false);
         });
 
         it('should return true if player has won a trick', () => {
-            const player = new PlayerState(PLAYER_ONE);
+            const player = new PlayerState(PLAYER_HUMAN);
             player.addCards([{ suit: HEARTS, rank: KING }, { suit: HEARTS, rank: QUEEN }]);
             player.incrementTricksWon();
             

@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { BeliefState } from '../../src/gamelogic/cpu/belief-state.js';
 import { CPUPlayer } from '../../src/gamelogic/cpu/cpu-player.js';
 import {
-    PLAYER_TWO,
+    PLAYER_CPU,
     TALON_OPEN,
     TALON_EXHAUSTED,
     HEARTS,
@@ -39,7 +39,7 @@ describe('CPU Logic', () => {
 
     describe('CPUPlayer', () => {
         it('should choose valid move in open phase', () => {
-            const cpu = new CPUPlayer(PLAYER_TWO);
+            const cpu = new CPUPlayer(PLAYER_CPU);
             const hand = [{ suit: HEARTS, rank: TEN }, { suit: SPADES, rank: KING }];
             const trump = { suit: CLUBS, rank: ACE } as Card;
 

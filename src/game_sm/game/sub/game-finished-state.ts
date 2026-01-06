@@ -2,7 +2,7 @@ import { GameBaseState } from '../../game-base-state.js';
 import { GAME_FINISHED, START_MENU } from '../../game-state.enum.js';
 import type { SimpleEvent } from '../../../sm/types.js';
 import { GAME_EVENT_IDS } from '../../../events/index.js';
-import { PLAYER_ONE, PLAYER_TWO } from '../../../gamelogic/types.js';
+import { PLAYER_HUMAN, PLAYER_CPU } from '../../../gamelogic/types.js';
 import type { StateEnum } from '../../../sm/state.enum.js';
 import type { GameState } from '../game-state.js';
 
@@ -15,9 +15,9 @@ export class GameFinishedState extends GameBaseState {
   onEntry(): void {
     // Get final scores and show game finished screen
     const winner = this.game.getWinner();
-    const winnerName = winner === PLAYER_ONE ? 'Player 1' : winner === PLAYER_TWO ? 'Player 2' : 'Nobody';
-    const p1Points = this.game.getGamePoints(PLAYER_ONE);
-    const p2Points = this.game.getGamePoints(PLAYER_TWO);
+    const winnerName = winner === PLAYER_HUMAN ? 'Player 1' : winner === PLAYER_CPU ? 'Player 2' : 'Nobody';
+    const p1Points = this.game.getGamePoints(PLAYER_HUMAN);
+    const p2Points = this.game.getGamePoints(PLAYER_CPU);
     const scores = `P1: ${p1Points} | P2: ${p2Points}`;
 
     this.ui.showGameFinished({

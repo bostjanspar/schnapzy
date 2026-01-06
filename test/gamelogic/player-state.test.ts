@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { PlayerState } from '../../src/gamelogic/player-state.js';
-import { PLAYER_ONE, HEARTS, SPADES, KING, QUEEN, ACE } from '../../src/gamelogic/types.js';
+import { PLAYER_HUMAN, HEARTS, SPADES, KING, QUEEN, ACE } from '../../src/gamelogic/types.js';
 
 describe('PlayerState', () => {
     let player: PlayerState;
@@ -9,7 +9,7 @@ describe('PlayerState', () => {
     const aceSpades = { suit: SPADES, rank: ACE } as const;
 
     beforeEach(() => {
-        player = new PlayerState(PLAYER_ONE);
+        player = new PlayerState(PLAYER_HUMAN);
     });
 
     it('should initialize with empty hand and 0 points', () => {

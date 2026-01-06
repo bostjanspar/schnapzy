@@ -1,6 +1,6 @@
 import {
-    PLAYER_ONE,
-    PLAYER_TWO,
+    PLAYER_HUMAN,
+    PLAYER_CPU,
     getOpponent,
 } from './types.js';
 import type {
@@ -77,25 +77,25 @@ export class Hand {
 
         // 3. Initialize Players
         this.players = new Map();
-        const p1State = new PlayerState(PLAYER_ONE);
-        const p2State = new PlayerState(PLAYER_TWO);
+        const p1State = new PlayerState(PLAYER_HUMAN);
+        const p2State = new PlayerState(PLAYER_CPU);
 
         // Assign hands
-        // Dealer is dealt to... usually opponent first? 
+        // Dealer is dealt to... usually opponent first?
         // Logic above dealt simply.
         // Let's assign correctly based on who is dealer if we care about "who got first card".
         // But simplified: P1 gets first 5, P2 gets next 5.
 
         // Assigning to correct player IDs
         // We just assume P1 and P2 exist.
-        p1State.addCards(PLAYER_ONE === this.dealer ? hand2Cards : hand1Cards); // Non-dealer gets first batch?
-        p2State.addCards(PLAYER_TWO === this.dealer ? hand2Cards : hand1Cards);
+        p1State.addCards(PLAYER_HUMAN === this.dealer ? hand2Cards : hand1Cards); // Non-dealer gets first batch?
+        p2State.addCards(PLAYER_CPU === this.dealer ? hand2Cards : hand1Cards);
         // Actually, simplifiction: Just give hand1 to P1, hand2 to P2. Randomness is in shuffle.
         // Wait, `hand1Cards` assigned to P1State.
         // BUT we need `this.players` map.
 
-        this.players.set(PLAYER_ONE, p1State); // Reset/New state
-        this.players.set(PLAYER_TWO, p2State);
+        this.players.set(PLAYER_HUMAN, p1State); // Reset/New state
+        this.players.set(PLAYER_CPU, p2State);
 
         // Adjust hands to ensure correct players got cards.
         // Implementation above:
@@ -305,7 +305,7 @@ export class Hand {
         // If 5 cards in hand reduced to 0?
         // Wait, drawing happens AFTER trick.
 
-        if (this.players.get(PLAYER_ONE)!.getHand().length === 0 && this.talon.getSize() === 0) {
+        if (this.players.get(PLAYER_HUMAN)!.getHand().length === 0 && this.talon.getSize() === 0) {
             // Hand played out.
             // Winner of last trick wins the hand?
             // Rule: "If neither player reaches 66, the winner of the last trick wins the hand." (1 point)

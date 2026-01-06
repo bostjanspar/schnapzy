@@ -39,10 +39,10 @@ export class LoadingScene extends BaseScene {
 
   enter(): void {
     this.visible = true;
-    this.loadAssets();
+    //this.loadAssets();
   }
 
-  private async loadAssets() {
+  public loadAssets() {
     log.debug('LoadingScene: Starting to load assets');
     this.loadingText.text = 'Loading game assets... ';
     const cardAssets = CardAssets.getInstance();

@@ -25,6 +25,7 @@ export class LoadingState extends GameBaseState {
     log.debug(`LoadingState: Received event ${simpleEvent.type}`);
 
     if (simpleEvent.type === GAME_EVENT_IDS.ASSET_LOADED) {
+      log.debug('LoadingState: Transition to START_MENU state');
       this.transition(START_MENU as StateEnum);
       return true;
     }

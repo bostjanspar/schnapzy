@@ -1,6 +1,6 @@
 import {
-    PLAYER_ONE,
-    PLAYER_TWO,
+    PLAYER_HUMAN,
+    PLAYER_CPU,
     NOT_STARTED,
     IN_PROGRESS,
     HAND_COMPLETE,
@@ -27,9 +27,9 @@ export class Game {
     constructor() {
         this.phase = NOT_STARTED;
         this.gamePoints = new Map();
-        this.gamePoints.set(PLAYER_ONE, 7);
-        this.gamePoints.set(PLAYER_TWO, 7);
-        this.dealer = PLAYER_ONE; // Standard start
+        this.gamePoints.set(PLAYER_HUMAN, 7);
+        this.gamePoints.set(PLAYER_CPU, 7);
+        this.dealer = PLAYER_HUMAN; // Standard start
         this.currentHand = null;
         this.winner = null;
     }
@@ -40,15 +40,14 @@ export class Game {
 
     public startGame(): void {
         if (this.phase !== NOT_STARTED && this.phase !== GAME_OVER) {
-            // Allow restarting?
-            // throw new Error("Game already in progress");
+            throw new Error("Game already in progress");
         }
 
         // Reset state
         this.phase = IN_PROGRESS;
-        this.gamePoints.set(PLAYER_ONE, 7);
-        this.gamePoints.set(PLAYER_TWO, 7);
-        this.dealer = PLAYER_ONE;
+        this.gamePoints.set(PLAYER_HUMAN, 7);
+        this.gamePoints.set(PLAYER_CPU, 7);
+        this.dealer = PLAYER_HUMAN;
         this.winner = null;
 
         this.startNewHand();

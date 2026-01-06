@@ -12,7 +12,8 @@ export class GameState extends GameBaseState {
   }
 
   onEntry(): void {
-    log.debug('Entering Game State');
+    log.debug('GameState:Entering Game State');
+    this.game.startGame();
   }
 
   onLeave(): void {

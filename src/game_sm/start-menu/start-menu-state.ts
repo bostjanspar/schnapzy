@@ -17,9 +17,9 @@ export class StartMenuState extends GameBaseState {
     this.ui.showStartMenu();
     //temporary  move to next state
     setTimeout(() => {
-          log.debug('move to GAME state');
+          log.debug('StartMenuState: move to GAME state');
           this.transition(GAME as StateEnum);
-        }, 100);
+        }, 1000);
 
   }
 
@@ -29,7 +29,7 @@ export class StartMenuState extends GameBaseState {
 
   override onEvent(simpleEvent: SimpleEvent): boolean {
     if (simpleEvent.type == GAME_EVENT_IDS.START_CLICKED) {
-      log.debug('Start button clicked, transitioning to Game State');
+      log.debug('StartMenuStateStart button clicked, transitioning to Game State');
       this.transition(GAME as StateEnum);
       return true;
     }

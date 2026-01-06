@@ -41,7 +41,7 @@ export class UIManager {
   // ==========================================================================
 
   showLoadingScreen(): void {
-    this.sceneManager.transitionTo(GameScene.LOADING);
+    this.sceneManager.showLoadingScreen();
   }
 
   showStartMenu(): void {

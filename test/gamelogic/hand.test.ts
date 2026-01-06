@@ -1,20 +1,20 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Hand } from '../../src/gamelogic/hand.js';
-import { PLAYER_ONE, PLAYER_TWO, CLUBS, HEARTS, SPADES, DIAMONDS, JACK, ACE, TEN, KING, QUEEN, Card } from '../../src/gamelogic/types.js';
+import { PLAYER_HUMAN, PLAYER_CPU, CLUBS, HEARTS, SPADES, DIAMONDS, JACK, ACE, TEN, KING, QUEEN, Card } from '../../src/gamelogic/types.js';
 
 describe('Hand Orchestration', () => {
     let hand: Hand;
 
     beforeEach(() => {
-        hand = new Hand(PLAYER_ONE);
+        hand = new Hand(PLAYER_HUMAN);
     });
 
     it('should initialize correctly', () => {
-        expect(hand.dealer).toBe(PLAYER_ONE);
-        expect(hand.leadPlayer).toBe(PLAYER_TWO);
-        expect(hand.turnPlayer).toBe(PLAYER_TWO);
-        expect(hand.players.get(PLAYER_ONE)!.getHand()).toHaveLength(5);
-        expect(hand.players.get(PLAYER_TWO)!.getHand()).toHaveLength(5);
+        expect(hand.dealer).toBe(PLAYER_HUMAN);
+        expect(hand.leadPlayer).toBe(PLAYER_CPU);
+        expect(hand.turnPlayer).toBe(PLAYER_CPU);
+        expect(hand.players.get(PLAYER_HUMAN)!.getHand()).toHaveLength(5);
+        expect(hand.players.get(PLAYER_CPU)!.getHand()).toHaveLength(5);
         expect(hand.talon.getSize()).toBe(10); // 20 - 10 dealt
         expect(hand.currentTrick).toBeDefined();
     });
@@ -35,8 +35,8 @@ describe('Hand Orchestration', () => {
         // Mock getValidPlays to allow any play for testing flow?
         // Or just pick valid cards. Talon is open initially, so any card valid.
 
-        const leader = hand.turnPlayer; // P2
-        const follower = hand.dealer; // P1
+        const leader = hand.turnPlayer; // CPU
+        const follower = hand.dealer; // Human
 
         const p2Card = hand.players.get(leader)!.getHand()[0];
         hand.playCard(leader, p2Card);
@@ -56,14 +56,14 @@ describe('Hand Orchestration', () => {
     });
 
     it('should prevent acting out of turn', () => {
-        const wrongPlayer = hand.dealer; // P1 (turn is P2)
+        const wrongPlayer = hand.dealer; // Human (turn is CPU)
         const card = hand.players.get(wrongPlayer)!.getHand()[0];
 
         expect(() => hand.playCard(wrongPlayer, card)).toThrow("Not your turn");
     });
 
     it('should return explanation when play is invalid via canPlayerPlayCard', () => {
-        const wrongPlayer = hand.dealer; // P1 (turn is P2)
+        const wrongPlayer = hand.dealer; // Human (turn is CPU)
         const card = hand.players.get(wrongPlayer)!.getHand()[0];
 
         const reason = hand.canPlayerPlayCard(wrongPlayer, card);
