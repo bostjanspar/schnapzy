@@ -45,12 +45,6 @@ export class GameTableLayout extends Container {
     this.addChild(this.scoreBoardContainer);
   }
   
-  async init(): Promise<void> {
-    if (!this.cardAssets.isLoaded()) {
-      await this.cardAssets.loadAll();
-    }
-  }
-  
   positionContainers(): void {
     const w = this.app.screen.width;
     const h = this.app.screen.height;

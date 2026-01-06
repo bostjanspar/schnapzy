@@ -14,7 +14,7 @@ export abstract class BaseScene extends Container {
     this.sceneType = sceneType;
   }
 
-  abstract init(): Promise<void>;
+  abstract init(): void;
 
   abstract enter(data?: unknown): void;
 

@@ -17,7 +17,7 @@ export class StartMenuScene extends BaseScene {
     this.startButtonText = this.createStartButtonText();
   }
 
-  async init(): Promise<void> {
+  init(): void {
     // Position container in center
     this.menuContainer.x = this.app.screen.width / 2;
     this.menuContainer.y = this.app.screen.height / 2;

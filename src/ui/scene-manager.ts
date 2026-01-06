@@ -22,7 +22,7 @@ export class SceneManager {
     this.eventBus = eventBus;
   }
 
-  async initialize(): Promise<void> {
+  initialize(): void {
     // Create all scenes
     this.scenes.set(GameScene.LOADING, new LoadingScene(this.app, this.eventBus));
     this.scenes.set(GameScene.START_MENU, new StartMenuScene(this.app, this.eventBus));
@@ -39,8 +39,7 @@ export class SceneManager {
     );
 
     // Initialize all scenes
-    const initPromises = Array.from(this.scenes.values()).map(scene => scene.init());
-    await Promise.all(initPromises);
+    this.scenes.forEach(scene => scene.init());
 
     // Add all scenes to stage (hidden initially)
     this.scenes.forEach(scene => {

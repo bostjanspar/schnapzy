@@ -18,7 +18,7 @@ export class LoadingScene extends BaseScene {
     this.loadingText = this.createLoadingText();
   }
 
-  async init(): Promise<void> {
+  init(): void {
     // Position container in center
     this.loadingContainer.x = this.app.screen.width / 2;
     this.loadingContainer.y = this.app.screen.height / 2;

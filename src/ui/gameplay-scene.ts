@@ -39,8 +39,7 @@ export class GameplayScene extends BaseScene {
     this.playerTrickPileContainer = new Container();
   }
   
-  async init(): Promise<void> {
-    await this.tableLayout.init();
+  init(): void {
     
     this.addChild(this.tableLayout);
     this.addChild(this.trickAreaContainer);

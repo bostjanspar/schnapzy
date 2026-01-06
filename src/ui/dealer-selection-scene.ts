@@ -13,7 +13,7 @@ export class DealerSelectionScene extends BaseScene {
     this.infoText = this.createInfoText();
   }
 
-  async init(): Promise<void> {
+  init(): void {
     this.container.x = this.app.screen.width / 2;
     this.container.y = this.app.screen.height / 2;
 

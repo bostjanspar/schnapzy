@@ -20,7 +20,7 @@ async function init(): Promise<void> {
 
   // Initialize the UI manager
   const uiManager = new UIManager(app);
-  await uiManager.initialize();
+  uiManager.initialize();
 
   // Initialize the game logic
   const game = new Game();

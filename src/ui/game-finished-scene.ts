@@ -17,7 +17,7 @@ export class GameFinishedScene extends BaseScene {
     this.playAgainText = this.createPlayAgainText();
   }
 
-  async init(): Promise<void> {
+  init(): void {
     this.container.x = this.app.screen.width / 2;
     this.container.y = this.app.screen.height / 2;
 

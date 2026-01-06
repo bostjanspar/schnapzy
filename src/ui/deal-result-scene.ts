@@ -16,7 +16,7 @@ export class DealResultScene extends BaseScene {
     this.continueText = this.createContinueText();
   }
 
-  async init(): Promise<void> {
+  init(): void {
     this.container.x = this.app.screen.width / 2;
     this.container.y = this.app.screen.height / 2;
 

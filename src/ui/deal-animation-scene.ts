@@ -18,8 +18,7 @@ export class DealAnimationScene extends BaseScene {
     this.tableLayout = new GameTableLayout(this.app);
   }
   
-  async init(): Promise<void> {
-    await this.tableLayout.init();
+  init(): void {
     this.addChild(this.tableLayout);
     this.tableLayout.positionContainers();
     

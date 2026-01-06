@@ -16,8 +16,8 @@ export class UIManager {
     this.sceneManager = new SceneManager(this.app, this.eventBus);
   }
 
-  async initialize(): Promise<void> {
-    await this.sceneManager.initialize();
+  initialize(): void {
+    this.sceneManager.initialize();
 
     // Setup game loop
     this.app.ticker.add(this.update.bind(this));
