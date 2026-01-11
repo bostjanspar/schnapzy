@@ -1,7 +1,7 @@
 import './style.css';
 import { Application } from 'pixi.js';
 import { Game } from './gamelogic/index.js';
-import { UIManager } from './ui/index.js';
+import { GameStateReader, UIManager } from './ui/index.js';
 import { createGameStateMachine } from './game_sm/index.js';
 import log from 'loglevel'
 
@@ -18,12 +18,14 @@ async function init(): Promise<void> {
 
   document.querySelector<HTMLDivElement>('#app')!.appendChild(app.canvas);
 
-  // Initialize the UI manager
-  const uiManager = new UIManager(app);
-  uiManager.initialize();
 
   // Initialize the game logic
   const game = new Game();
+
+  // Initialize the UI manager
+  const uiManager = new UIManager(app, new GameStateReader(game));
+  uiManager.initialize();
+
   // Create and configure the game state machine
   const gameStateMachine = createGameStateMachine(game, uiManager);
 

@@ -1,8 +1,9 @@
 import { Text, Container, type Application } from 'pixi.js';
-import { BaseScene } from './base-scene.js';
-import { EventBus} from './event-bus.js';
+import { BaseScene } from './utils/base-scene.js';
+import { EventBus} from './utils/event-bus.js';
 import { EventStartGame } from '../events/index.js';
-import { GameScene } from './types.js';
+import { GameScene } from './utils/types.js';
+import type { IGameStateReader } from './utils/game-state-reader.js';
 
 export class StartMenuScene extends BaseScene {
   private menuContainer: Container;
@@ -10,8 +11,8 @@ export class StartMenuScene extends BaseScene {
   private startButtonText: Text;
   //private selectedLanguage: string = 'en';
 
-  constructor(app: Application, eventBus: EventBus) {
-    super(app, eventBus, GameScene.START_MENU);
+  constructor(app: Application, eventBus: EventBus, gameStateReader: IGameStateReader) {
+    super(app, eventBus, gameStateReader, GameScene.START_MENU);
     this.menuContainer = new Container();
     this.titleText = this.createTitleText();
     this.startButtonText = this.createStartButtonText();

@@ -1,7 +1,8 @@
 import { Text, Container, type Application } from 'pixi.js';
-import { BaseScene } from './base-scene.js';
-import { EventBus } from './event-bus.js';
-import { GameScene } from './types.js';
+import { BaseScene } from './utils/base-scene.js';
+import { EventBus } from './utils/event-bus.js';
+import { GameScene } from './utils/types.js';
+import type { IGameStateReader } from './utils/game-state-reader.js';
 
 export class GameFinishedScene extends BaseScene {
   private container: Container;
@@ -11,8 +12,8 @@ export class GameFinishedScene extends BaseScene {
   private winnerName: string = 'Player 1';
   private scores: string = 'P1: 0 | P2: 0';
 
-  constructor(app: Application, eventBus: EventBus) {
-    super(app, eventBus, GameScene.GAME_FINISHED);
+  constructor(app: Application, eventBus: EventBus, gameStateReader: IGameStateReader) {
+    super(app, eventBus, gameStateReader, GameScene.GAME_FINISHED);
     this.container = new Container();
     this.winnerText = this.createWinnerText();
     this.scoresText = this.createScoresText();

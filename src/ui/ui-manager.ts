@@ -1,19 +1,20 @@
 import { type Application } from 'pixi.js';
-import { GameScene } from './types.js';
-import { EventBus } from './event-bus.js';
+import { GameScene } from './utils/types.js';
+import { EventBus } from './utils/event-bus.js';
 import { SceneManager } from './scene-manager.js';
-import type { IGameStateReader } from './game-state-reader.js';
-import type { Card } from '../gamelogic/types.js';
+import type { IGameStateReader } from './utils/game-state-reader.js';
 
 export class UIManager {
   private app: Application;
+  private gameStateReader: IGameStateReader;
   private eventBus: EventBus;
   private sceneManager: SceneManager;
 
-  constructor(app: Application) {
+  constructor(app: Application, gameStateReader: IGameStateReader) {
     this.app = app;
+    this.gameStateReader = gameStateReader;
     this.eventBus = new EventBus();
-    this.sceneManager = new SceneManager(this.app, this.eventBus);
+    this.sceneManager = new SceneManager(this.app, this.eventBus, this.gameStateReader);
   }
 
   initialize(): void {
@@ -48,30 +49,11 @@ export class UIManager {
     this.sceneManager.transitionTo(GameScene.START_MENU);
   }
 
-  startDealerSelection(data: { players: unknown[] }): void {
-    const scene = this.sceneManager.getScene(GameScene.DEALER_SELECTION);
-    if (scene && 'setPlayers' in scene) {
-      (scene as any).setPlayers(data.players);
-    }
-    this.sceneManager.transitionTo(GameScene.DEALER_SELECTION);
-  }
-
-  showDealAnimation(gameStateReader: IGameStateReader): void {
-    const scene = this.sceneManager.getScene(GameScene.DEAL_ANIMATION);
-    if (scene && 'prepare' in scene) {
-      (scene as any).prepare(gameStateReader);
-    }
+  showDealAnimation(): void {    
     this.sceneManager.transitionTo(GameScene.DEAL_ANIMATION);
   }
 
-  startGameplay(
-    gameStateReader: IGameStateReader,
-    onCardPlayed: (card: Card) => void,
-  ): void {
-    const scene = this.sceneManager.getScene(GameScene.GAMEPLAY);
-    if (scene && 'prepare' in scene) {
-      (scene as any).prepare({ gameStateReader, onCardPlayed });
-    }
+  startGameplay(): void {    
     this.sceneManager.transitionTo(GameScene.GAMEPLAY);
   }
 

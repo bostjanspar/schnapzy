@@ -1,18 +1,19 @@
 import { Text, Container, type Application } from 'pixi.js';
-import { BaseScene } from './base-scene.js';
-import { EventBus } from './event-bus.js';
-import { GameScene } from './types.js';
-import { CardAssets } from './card-assets.js';
+import { BaseScene } from './utils/base-scene.js';
+import { EventBus } from './utils/event-bus.js';
+import { GameScene } from './utils/types.js';
+import { CardAssets } from './utils/card-assets.js';
 import { EventAssetLoaded } from '../events/index.js';
 import log from 'loglevel'
+import type { IGameStateReader } from './utils/game-state-reader.js';
 
 export class LoadingScene extends BaseScene {
   private loadingContainer: Container;
   private titleText: Text;
   private loadingText: Text;
 
-  constructor(app: Application, eventBus: EventBus) {
-    super(app, eventBus, GameScene.LOADING);
+  constructor(app: Application, eventBus: EventBus, gameStateReader: IGameStateReader) {
+    super(app, eventBus, gameStateReader, GameScene.LOADING);
     this.loadingContainer = new Container();
     this.titleText = this.createTitleText();
     this.loadingText = this.createLoadingText();

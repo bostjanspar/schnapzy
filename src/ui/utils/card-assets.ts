@@ -1,5 +1,5 @@
 import { Assets, Texture } from 'pixi.js';
-import type { Card, Suit, Rank } from '../gamelogic/types.js';
+import type { Card, Suit, Rank } from '../../gamelogic/types.js';
 
 // ============================================================================
 // Asset Path Constants

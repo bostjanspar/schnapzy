@@ -1,5 +1,5 @@
-import type { StateMachine } from '../sm/state-machine.js';
-import type { SimpleEvent } from '../sm/types.js';
+import type { StateMachine } from '../../sm/state-machine.js';
+import type { SimpleEvent } from '../../sm/types.js';
 
 export class EventBus {
   private stateMachine?: StateMachine;

@@ -1,7 +1,7 @@
-import type { Game } from '../gamelogic/game.js';
-import type { Hand } from '../gamelogic/hand.js';
-import type { Card, Player, Suit, TalonState, GamePhase } from '../gamelogic/types.js';
-import { PLAYER_HUMAN, PLAYER_CPU } from '../gamelogic/types.js';
+import type { Game } from '../../gamelogic/game.js';
+import type { Hand } from '../../gamelogic/hand.js';
+import type { Card, Player, Suit, TalonState, GamePhase } from '../../gamelogic/types.js';
+import { PLAYER_HUMAN, PLAYER_CPU } from '../../gamelogic/types.js';
 
 export interface IGameStateReader {
   // Game-level

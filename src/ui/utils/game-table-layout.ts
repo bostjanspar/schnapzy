@@ -1,7 +1,7 @@
 import { Container, Sprite, Text, type Application } from 'pixi.js';
 import { LAYOUT, SCALE } from './layout-constants.js';
 import { CardAssets } from './card-assets.js';
-import type { Card } from '../gamelogic/types.js';
+import type { Card } from '../../gamelogic/types.js';
 
 export interface TableLayoutOptions {
   interactive?: boolean;  // Enable card click handlers

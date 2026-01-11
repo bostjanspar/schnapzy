@@ -13,3 +13,10 @@ export class EventStartGame extends SimpleEvent<typeof GAME_EVENT_IDS.START_CLIC
     super(GAME_EVENT_IDS.START_CLICKED);
   }
 }
+
+
+export class EventDealAnimationComplete extends SimpleEvent<typeof GAME_EVENT_IDS.DEAL_ANIM_COMPLETE> {
+  constructor() {
+    super(GAME_EVENT_IDS.DEAL_ANIM_COMPLETE);
+  }
+}

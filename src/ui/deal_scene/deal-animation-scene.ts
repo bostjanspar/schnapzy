@@ -1,17 +1,17 @@
 // Import PIXI
 import { Application, Sprite, Container } from 'pixi.js';
 import { gsap } from 'gsap';
-import { BaseScene } from './base-scene.js';
-import { EventBus } from './event-bus.js';
-import { GameScene } from './types.js';
-import { GameTableLayout } from './game-table-layout.js';
-import { CardAssets } from './card-assets.js';
-import { LAYOUT, SCALE } from './layout-constants.js';
-import type { IGameStateReader } from './game-state-reader.js';
-import type { Card, Player } from '../gamelogic/types.js';
-import { getOpponent } from '../gamelogic/types.js';
-import { compareCards } from '../gamelogic/card.js';
-
+import { BaseScene } from '../utils/base-scene.js';
+import { EventBus } from '../utils/event-bus.js';
+import { GameScene } from '../utils/types.js';
+import { GameTableLayout } from '../utils/game-table-layout.js';
+import { LAYOUT, SCALE } from '../utils/layout-constants.js';
+import type { Card, Player } from '../../gamelogic/types.js';
+import { getOpponent } from '../../gamelogic/types.js';
+import { compareCards } from '../../gamelogic/card.js'; // CardAssets
+import { EventDealAnimationComplete } from '../../events/game-event-types.js';
+import { CardAssets } from '../utils/card-assets.js';
+import type { IGameStateReader } from '../index.js';
 // Type alias for GSAP timeline
 type GSAPTimeline = ReturnType<typeof gsap.timeline>;
 
@@ -20,13 +20,12 @@ type GSAPTimeline = ReturnType<typeof gsap.timeline>;
 const ANIMATION_TIME = {
   CARD_DEAL: 0.35,     // Slower card flight
   TRUMP_PLACE: 0.6,    // Trump card placement
-  TALON_STACK: 0.5,    // Talon stacking
-  SORT_CARD: 0.4,      // Card move during sort
+  TALON_STACK: 0.1,    // Talon stacking
+  SORT_CARD: 0.1,      // Card move during sort
 };
 
 export class DealAnimationScene extends BaseScene {
   private tableLayout: GameTableLayout;
-  private stateReader: IGameStateReader | null = null;
   private cardAssets: CardAssets;
   private animationContainer: Container;
   private animationSprites: Sprite[] = [];
@@ -41,8 +40,8 @@ export class DealAnimationScene extends BaseScene {
   // Track sprites for sorting
   private playerSpritesMap: Map<string, Sprite> = new Map();
 
-  constructor(app: Application, eventBus: EventBus) {
-    super(app, eventBus, GameScene.DEAL_ANIMATION);
+  constructor(app: Application, eventBus: EventBus, gameStateReader: IGameStateReader) {
+    super(app, eventBus, gameStateReader, GameScene.DEAL_ANIMATION);
     this.tableLayout = new GameTableLayout(this.app);
     this.cardAssets = CardAssets.getInstance();
     this.animationContainer = new Container();
@@ -56,12 +55,8 @@ export class DealAnimationScene extends BaseScene {
     window.addEventListener('resize', this.handleResize);
   }
 
-  prepare(gameStateReader: IGameStateReader): void {
-    this.stateReader = gameStateReader;
-    this.clearAnimationData();
-  }
-
   enter(): void {
+
     this.visible = true;
     this.startDealSequence();
   }
@@ -71,15 +66,14 @@ export class DealAnimationScene extends BaseScene {
   // =========================================================================
 
   private async startDealSequence(): Promise<void> {
-    if (!this.stateReader) return;
-
+    
     // Get cards from state
-    const playerHand = this.stateReader.getPlayerHand('PLAYER_HUMAN' as any);
-    const cpuHand = this.stateReader.getPlayerHand('PLAYER_CPU' as any);
-    const trumpCard = this.stateReader.getTrumpCard();
-    const talonSize = this.stateReader.getTalonSize();
-    const p1Points = this.stateReader.getGamePoints('PLAYER_HUMAN' as any);
-    const p2Points = this.stateReader.getGamePoints('PLAYER_CPU' as any);
+    const playerHand = this.gameStateReader.getPlayerHand('PLAYER_HUMAN' as any);
+    const cpuHand = this.gameStateReader.getPlayerHand('PLAYER_CPU' as any);
+    const trumpCard = this.gameStateReader.getTrumpCard();
+    const talonSize = this.gameStateReader.getTalonSize();
+    const p1Points = this.gameStateReader.getGamePoints('PLAYER_HUMAN' as any);
+    const p2Points = this.gameStateReader.getGamePoints('PLAYER_CPU' as any);
 
     // Store card data
     this.playerCards = [...playerHand];
@@ -99,11 +93,7 @@ export class DealAnimationScene extends BaseScene {
     this.gsapContext = gsap.context();
 
     // Use timeline for better performance and sequencing
-    const tl = gsap.timeline({
-      onComplete: () => {
-        this.eventBus.emit({ type: 'DEAL_ANIMATION_COMPLETE' });
-      },
-    });
+    const tl = gsap.timeline();
 
     // Build the deal sequence
     this.buildDealTimeline(tl);
@@ -112,10 +102,12 @@ export class DealAnimationScene extends BaseScene {
     await new Promise<void>((resolve) => {
       tl.eventCallback('onComplete', resolve);
     });
+
+    this.eventBus.emit( new EventDealAnimationComplete() );
   }
 
   private buildDealTimeline(tl: GSAPTimeline): void {
-    const dealer = this.stateReader?.getDealer() ?? 'PLAYER_CPU' as Player;
+    const dealer = this.gameStateReader?.getDealer() ?? 'PLAYER_CPU' as Player;
     const nonDealer = getOpponent(dealer);
 
     // 0. Create visual deck (talon cards) at center - Full Deck Start
@@ -197,27 +189,17 @@ export class DealAnimationScene extends BaseScene {
 
     // Phase 4: Move remaining deck to talon position
     if (talonSprites.length > 0) {
+      const target = this.animationContainer.toLocal(this.tableLayout.talonContainer.toGlobal({ x: 0, y: 0 }));
+
       tl.to(talonSprites, {
-        x: (_, i) => {
-          // Same local X logic as renderTalon: -(i * offset)
-          const localX = -(i * LAYOUT.DECK_STACK_OFFSET * SCALE.TALON);
-          return this.tableLayout.talonContainer.toGlobal({ x: localX, y: 0 }).x;
-        },
-        y: (_, i) => {
-          // Same local Y logic as renderTalon: -(i * offset)
-          const localY = -(i * LAYOUT.DECK_STACK_OFFSET * SCALE.TALON);
-          return this.tableLayout.talonContainer.toGlobal({ x: 0, y: localY }).y;
-        },
+        x: target.x,
+        y: target.y,
         duration: ANIMATION_TIME.TALON_STACK,
         ease: 'power1.out',
-        stagger: 0.02,
-        // No onStart needed, they are already visible
         onComplete: () => {
           talonSprites.forEach((sprite, i) => {
-            this.animationContainer.removeChild(sprite);
-            // Set final local position
-            sprite.x = -(i * LAYOUT.DECK_STACK_OFFSET * SCALE.TALON);
-            sprite.y = -(i * LAYOUT.DECK_STACK_OFFSET * SCALE.TALON);
+            const offset = -(i * LAYOUT.DECK_STACK_OFFSET * SCALE.TALON);
+            sprite.position.set(offset, offset);
             this.tableLayout.talonContainer.addChild(sprite);
           });
         },
@@ -382,7 +364,6 @@ export class DealAnimationScene extends BaseScene {
     this.clearAnimationData();
     this.animationContainer.removeChildren();
     this.tableLayout.clearAllCards();
-    this.stateReader = null;
   }
 
   // GSAP handles its own updates automatically

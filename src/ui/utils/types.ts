@@ -10,7 +10,6 @@ export type GameScene =
 export const GameScene = {
   LOADING: 'LOADING' as const,
   START_MENU: 'START_MENU' as const,
-  DEALER_SELECTION: 'DEALER_SELECTION' as const,
   DEAL_ANIMATION: 'DEAL_ANIMATION' as const,
   GAMEPLAY: 'GAMEPLAY' as const,
   DEAL_RESULT: 'DEAL_RESULT' as const,

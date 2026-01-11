@@ -1,8 +1,9 @@
 import { Text, Container, type Application } from 'pixi.js';
-import { BaseScene } from './base-scene.js';
-import { EventBus } from './event-bus.js';
+import { BaseScene } from './utils/base-scene.js';
+import { EventBus } from './utils/event-bus.js';
 import { GAME_EVENT_IDS } from '../events/index.js';
-import { GameScene } from './types.js';
+import { GameScene } from './utils/types.js';
+import type { IGameStateReader } from './utils/game-state-reader.js';
 
 export class DealResultScene extends BaseScene {
   private container: Container;
@@ -12,8 +13,8 @@ export class DealResultScene extends BaseScene {
   private winnerName: string = '';
   private points: number = 0;
 
-  constructor(app: Application, eventBus: EventBus) {
-    super(app, eventBus, GameScene.DEAL_RESULT);
+  constructor(app: Application, eventBus: EventBus, gameStateReader: IGameStateReader) {
+    super(app, eventBus, gameStateReader, GameScene.DEAL_RESULT);
     this.container = new Container();
     this.winnerText = this.createWinnerText();
     this.continueText = this.createContinueText();

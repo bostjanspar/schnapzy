@@ -1,42 +1,40 @@
 import type { Application } from 'pixi.js';
 import log from 'loglevel';
-import { GameScene } from './types.js';
-import { EventBus } from './event-bus.js';
-import { BaseScene } from './base-scene.js';
+import { GameScene } from './utils/types.js';
+import { EventBus } from './utils/event-bus.js';
+import { BaseScene } from './utils/base-scene.js';
 import { LoadingScene } from './loading-scene.js';
 import { StartMenuScene } from './start-menu-scene.js';
-import { DealerSelectionScene } from './dealer-selection-scene.js';
-import { DealAnimationScene } from './deal-animation-scene.js';
+import { DealAnimationScene } from './deal_scene/deal-animation-scene.js';
 import { GameplayScene } from './gameplay-scene.js';
 import { DealResultScene } from './deal-result-scene.js';
 import { GameFinishedScene } from './game-finished-scene.js';
+import type { IGameStateReader } from './utils/game-state-reader.js';
 
 export class SceneManager {
   private app: Application;
   private eventBus: EventBus;
+  private gameStateReader: IGameStateReader;
   private scenes: Map<GameScene, BaseScene> = new Map();
   private currentScene: BaseScene | null = null;
   private transitionInProgress: boolean = false;
 
-  constructor(app: Application, eventBus: EventBus) {
+  constructor(app: Application, eventBus: EventBus, gameStateReader: IGameStateReader) {
     this.app = app;
     this.eventBus = eventBus;
+    this.gameStateReader = gameStateReader;
   }
 
   initialize(): void {
     // Create all scenes
-    this.scenes.set(GameScene.LOADING, new LoadingScene(this.app, this.eventBus));
-    this.scenes.set(GameScene.START_MENU, new StartMenuScene(this.app, this.eventBus));
-    this.scenes.set(
-      GameScene.DEALER_SELECTION,
-      new DealerSelectionScene(this.app, this.eventBus),
-    );
-    this.scenes.set(GameScene.DEAL_ANIMATION, new DealAnimationScene(this.app, this.eventBus));
-    this.scenes.set(GameScene.GAMEPLAY, new GameplayScene(this.app, this.eventBus));
-    this.scenes.set(GameScene.DEAL_RESULT, new DealResultScene(this.app, this.eventBus));
+    this.scenes.set(GameScene.LOADING, new LoadingScene(this.app, this.eventBus, this.gameStateReader));
+    this.scenes.set(GameScene.START_MENU, new StartMenuScene(this.app, this.eventBus, this.gameStateReader));  
+    this.scenes.set(GameScene.DEAL_ANIMATION, new DealAnimationScene(this.app, this.eventBus, this.gameStateReader));
+    this.scenes.set(GameScene.GAMEPLAY, new GameplayScene(this.app, this.eventBus, this.gameStateReader));
+    this.scenes.set(GameScene.DEAL_RESULT, new DealResultScene(this.app, this.eventBus, this.gameStateReader));
     this.scenes.set(
       GameScene.GAME_FINISHED,
-      new GameFinishedScene(this.app, this.eventBus),
+      new GameFinishedScene(this.app, this.eventBus, this.gameStateReader),
     );
 
     // Initialize all scenes
@@ -63,6 +61,7 @@ export class SceneManager {
   }
 
   transitionTo(sceneType: GameScene): boolean {
+    log.debug(`SceneManager: Transitioning to scene from ${this.currentScene ? this.currentScene.sceneType : 'none'} to ${sceneType}`);
     if (this.transitionInProgress) {
       log.warn('Transition already in progress. Transition request to ' + sceneType + 'ignored. Current scene: ' + (this.currentScene ? this.currentScene.sceneType : 'none'));
       return false;

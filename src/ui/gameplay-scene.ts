@@ -1,21 +1,16 @@
 import { Container, Sprite, type Application } from 'pixi.js';
-import { BaseScene } from './base-scene.js';
-import { EventBus } from './event-bus.js';
-import { GameScene } from './types.js';
-import { GameTableLayout } from './game-table-layout.js';
-import { CardAssets } from './card-assets.js';
-import { LAYOUT, SCALE } from './layout-constants.js';
-import type { IGameStateReader } from './game-state-reader.js';
+import { BaseScene } from './utils/base-scene.js';
+import { EventBus } from './utils/event-bus.js';
+import { GameScene } from './utils/types.js';
+import { GameTableLayout } from './utils/game-table-layout.js';
+import { LAYOUT, SCALE } from './utils/layout-constants.js';
 import type { Card, Player } from '../gamelogic/types.js';
-
-export interface GameplaySceneData {
-  gameStateReader: IGameStateReader;
-  onCardPlayed?: (card: Card) => void;
-}
+import { compareCards } from '../gamelogic/card.js';
+import { CardAssets } from './utils/card-assets.js';
+import type { IGameStateReader } from './index.js';
 
 export class GameplayScene extends BaseScene {
   private tableLayout: GameTableLayout;
-  private stateReader: IGameStateReader | null = null;
   private cardAssets: CardAssets;
   
   // Gameplay-specific containers (not in shared layout)
@@ -26,8 +21,8 @@ export class GameplayScene extends BaseScene {
   // Action callbacks
   private onCardPlayed: ((card: Card) => void) | undefined;
   
-  constructor(app: Application, eventBus: EventBus) {
-    super(app, eventBus, GameScene.GAMEPLAY);
+  constructor(app: Application, eventBus: EventBus, gameStateReader: IGameStateReader) {
+    super(app, eventBus, gameStateReader, GameScene.GAMEPLAY);
     this.tableLayout = new GameTableLayout(this.app);
     this.cardAssets = CardAssets.getInstance();
     
@@ -78,11 +73,6 @@ export class GameplayScene extends BaseScene {
     this.playerTrickPileContainer.y = h * 0.75;
   }
   
-  prepare(data: GameplaySceneData): void {
-    this.stateReader = data.gameStateReader;
-    this.onCardPlayed = data.onCardPlayed;
-  }
-
   enter(): void {
     this.visible = true;
     this.renderFromState();
@@ -97,17 +87,16 @@ export class GameplayScene extends BaseScene {
   }
   
   private renderFromState(): void {
-    if (!this.stateReader) return;
     
-    const playerHand = this.stateReader.getPlayerHand('PLAYER_HUMAN' as any);
-    const cpuHand = this.stateReader.getPlayerHand('PLAYER_CPU' as any);
-    const trumpCard = this.stateReader.getTrumpCard();
-    const talonSize = this.stateReader.getTalonSize();
-    const p1Points = this.stateReader.getGamePoints('PLAYER_HUMAN' as any);
-    const p2Points = this.stateReader.getGamePoints('PLAYER_CPU' as any);
+    const playerHand = this.gameStateReader.getPlayerHand('PLAYER_HUMAN' as any);
+    const cpuHand = this.gameStateReader.getPlayerHand('PLAYER_CPU' as any);
+    const trumpCard = this.gameStateReader.getTrumpCard();
+    const talonSize = this.gameStateReader.getTalonSize();
+    const p1Points = this.gameStateReader.getGamePoints('PLAYER_HUMAN' as any);
+    const p2Points = this.gameStateReader.getGamePoints('PLAYER_CPU' as any);
     
     // Render shared layout (interactive player hand)
-    this.tableLayout.renderPlayerHand(playerHand, true);
+    this.tableLayout.renderPlayerHand([... playerHand].sort(compareCards), true);
     this.tableLayout.renderCpuHand(cpuHand.length);
     this.tableLayout.renderTalon(trumpCard, talonSize);
     this.tableLayout.renderScoreBoard(p1Points, p2Points);
@@ -120,9 +109,7 @@ export class GameplayScene extends BaseScene {
   private renderTrickArea(): void {
     this.trickAreaContainer.removeChildren();
     
-    if (!this.stateReader) return;
-    
-    const trickCards = this.stateReader.getCurrentTrickCards();
+    const trickCards = this.gameStateReader.getCurrentTrickCards();
     const Y_OFFSET = 90;
     
     for (const { player, card } of trickCards) {
@@ -146,10 +133,9 @@ export class GameplayScene extends BaseScene {
     this.cpuTrickPileContainer.removeChildren();
     this.playerTrickPileContainer.removeChildren();
     
-    if (!this.stateReader) return;
     
-    const cpuTricks = this.stateReader.getPlayerTricksWon('PLAYER_CPU' as any);
-    const playerTricks = this.stateReader.getPlayerTricksWon('PLAYER_HUMAN' as any);
+    const cpuTricks = this.gameStateReader.getPlayerTricksWon('PLAYER_CPU' as any);
+    const playerTricks = this.gameStateReader.getPlayerTricksWon('PLAYER_HUMAN' as any);
     
     // CPU trick pile
     const cpuStackCount = Math.min(cpuTricks, 5);
@@ -175,10 +161,10 @@ export class GameplayScene extends BaseScene {
   }
   
   private handleCardClick(card: Card, _sprite: Sprite): void {
-    if (!this.stateReader) return;
+  
     
     // Validate play (read-only check)
-    const error = this.stateReader.canPlayerPlayCard('PLAYER_HUMAN' as any, card);
+    const error = this.gameStateReader.canPlayerPlayCard('PLAYER_HUMAN' as any, card);
     if (error) {
       // TODO: Show error feedback (shake animation, tooltip, etc.)
       console.warn('Invalid play:', error);
@@ -207,7 +193,6 @@ export class GameplayScene extends BaseScene {
     this.trickAreaContainer.removeChildren();
     this.cpuTrickPileContainer.removeChildren();
     this.playerTrickPileContainer.removeChildren();
-    this.stateReader = null;
   }
   
   update(_delta: number): void {
