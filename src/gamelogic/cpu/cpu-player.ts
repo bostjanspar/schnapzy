@@ -1,6 +1,7 @@
 import {
     TALON_CLOSED,
     TALON_EXHAUSTED,
+    ACE, TEN, KING, QUEEN,
     // TALON_OPEN, // Unused
 } from '../types.js';
 import type {
@@ -9,6 +10,7 @@ import type {
     TalonState,
     Player,
 } from '../types.js';
+import { getCardValue } from '../card.js';
 import { BeliefState } from './belief-state.js';
 import { selectLeadCard, selectFollowCard, shouldExchangeTrumpJack } from './heuristics.js';
 import { solve } from './minimax.js';
@@ -28,35 +30,20 @@ export class CPUPlayer {
 
     public updateState(
         myHand: Card[],
-        _playedCards: Card[], // All played cards history or just recent? BeliefState expects accumulated.
+        playedCards: Card[], // All played cards history
         talonState: TalonState,
         talonSize: number
     ): void {
         if (!this.beliefState) return;
         this.beliefState.updateMyHand(myHand);
         this.beliefState.updateTalonState(talonState, talonSize);
-        // We assume playedCards are handled externally or passed in full.
-        // If `BeliefState` assumes `playedCards` in constructor, we might need a setter or just rebuild it?
-        // Re-instantiating might be safer to ensure sync.
-        // But we lose "knownOpponentCards" (Marriages).
-
-        // Let's assume we maintain `BeliefState` correctly via methods.
-        // But `BeliefState` definition I wrote earlier didn't have `updatePlayedCards`.
-        // I should update `BeliefState` to generally accept updates or make properties public?
-        // Or just pass `playedCards` to decision methods?
-
-        // Decision methods in `heuristics` don't take `BeliefState` directly except `selectLeadCard`.
-        // `selectLeadCard` calls `beliefState.getUnknownCards()`.
-        // `getUnknownCards` uses `this.playedCards`.
-
-        // So I NEED to update played cards in belief state.
-        // I will add a method to BeliefState in a moment (or just access it via cast/fix).
-        // For now, let's assume `recordPlayedCard` exists or add it.
+        this.beliefState.updatePlayedCards(playedCards);
     }
 
-    public onOpponentPlay(_card: Card): void {
-        // Record formatted update
-        // this.beliefState.recordPlayedCard(card);
+    public onOpponentPlay(card: Card): void {
+        if (this.beliefState) {
+            this.beliefState.recordPlayedCard(card);
+        }
     }
 
     public decideMove(
@@ -115,11 +102,34 @@ export class CPUPlayer {
         return shouldExchangeTrumpJack(trumpCard);
     }
 
-    public shouldCloseTalon(_myPoints: number, _hand: Card[]): boolean {
-        // Simple heuristic: Close if we have good points > 50?
-        // Or if Minimax says we win?
-        // Simulating "if I close now" is complex Minimax.
-        // For now: Conservative. Only close if very strong.
-        return false; // Implement advanced logic later
+    public shouldCloseTalon(myPoints: number, hand: Card[]): boolean {
+        if (!this.beliefState) return false;
+        
+        const trumpSuit = this.beliefState.getTrumpSuit();
+
+        // Basic heuristic: Close if we have strong trumps and good points
+        const trumps = hand.filter(c => c.suit === trumpSuit);
+        const hasTrumpAce = trumps.some(c => c.rank === ACE);
+        const hasTrumpTen = trumps.some(c => c.rank === TEN);
+        const hasTrumpMarriage = trumps.some(c => c.rank === KING) && trumps.some(c => c.rank === QUEEN);
+
+        // Calculate points in hand
+        const handPoints = hand.reduce((sum, c) => sum + getCardValue(c), 0);
+
+        // Strong enough to close?
+        
+        // Case 1: Trump Marriage (40 pts) - very strong position
+        if (hasTrumpMarriage) return true;
+        
+        // Case 2: High score already and have a high trump to secure tricks
+        if (myPoints > 45 && (hasTrumpAce || hasTrumpTen)) return true;
+
+        // Case 3: 3+ trumps (likely to control game)
+        if (trumps.length >= 3) return true;
+
+        // Case 4: Enough points to win instantly if we win tricks (and we have a high trump)
+        if (myPoints + handPoints >= 66 && (hasTrumpAce || hasTrumpTen)) return true;
+
+        return false; 
     }
 }

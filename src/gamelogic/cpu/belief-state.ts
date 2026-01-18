@@ -52,6 +52,14 @@ export class BeliefState {
         this.talonSize = size;
     }
 
+    public updatePlayedCards(cards: Card[]): void {
+        this.playedCards = [...cards];
+        // Remove played cards from known opponent cards to keep state consistent
+        this.knownOpponentCards = this.knownOpponentCards.filter(c => 
+            !this.playedCards.some(pc => cardsEqual(pc, c))
+        );
+    }
+
     public recordPlayedCard(card: Card): void {
         if (!this.playedCards.some(c => cardsEqual(c, card))) {
             this.playedCards.push(card);

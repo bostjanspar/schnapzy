@@ -66,7 +66,7 @@ export function selectLeadCard(hand: Card[], beliefState: BeliefState): Card {
     const unknown = beliefState.getUnknownCards();
 
     // 1. Lead singleton low cards
-    const singleton = findSingletonToLead(hand, beliefState['trumpSuit']);
+    const singleton = findSingletonToLead(hand, beliefState.getTrumpSuit());
     // Need access to trumpSuit from beliefState public?
     // Added accessor below or just access property if public mock?
     // BeliefState definition has private properties. I should add getter.
