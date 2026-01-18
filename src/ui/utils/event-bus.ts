@@ -13,6 +13,8 @@ export class EventBus {
       console.warn(`EventBus.emit called before state machine was set: ${simpleEvent.type}`);
       return;
     }
-    this.stateMachine.onEvent(simpleEvent);
+
+    const self = this;
+    queueMicrotask(() => {self.stateMachine!.onEvent(simpleEvent);});  
   }
 }

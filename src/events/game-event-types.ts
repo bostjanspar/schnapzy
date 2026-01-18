@@ -20,3 +20,10 @@ export class EventDealAnimationComplete extends SimpleEvent<typeof GAME_EVENT_ID
     super(GAME_EVENT_IDS.DEAL_ANIM_COMPLETE);
   }
 }
+
+
+export class EventGamePlayReady extends SimpleEvent<typeof GAME_EVENT_IDS.GAME_PLAY_READY> {
+  constructor() {
+    super(GAME_EVENT_IDS.GAME_PLAY_READY);
+  }
+}

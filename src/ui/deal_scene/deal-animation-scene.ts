@@ -65,7 +65,7 @@ export class DealAnimationScene extends BaseScene {
   // Animation Sequence
   // =========================================================================
 
-  private async startDealSequence(): Promise<void> {
+  private startDealSequence() {
     
     // Get cards from state
     const playerHand = this.gameStateReader.getPlayerHand('PLAYER_HUMAN' as any);
@@ -98,12 +98,12 @@ export class DealAnimationScene extends BaseScene {
     // Build the deal sequence
     this.buildDealTimeline(tl);
 
-    // Wait for timeline to complete
-    await new Promise<void>((resolve) => {
-      tl.eventCallback('onComplete', resolve);
+    const self = this;
+    tl.then(() => {
+      self.eventBus.emit( new EventDealAnimationComplete() );
     });
 
-    this.eventBus.emit( new EventDealAnimationComplete() );
+    
   }
 
   private buildDealTimeline(tl: GSAPTimeline): void {

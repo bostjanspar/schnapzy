@@ -38,7 +38,7 @@ export class RootState extends BaseState {
 
     // Hierarchical event handling from leaf to root
     let currentState: BaseState | null = leafState;
-    while (currentState) {
+    while (currentState && currentState !== this) {
       if (currentState.onEvent(simpleEvent)) {
         return true; // Event consumed
       }

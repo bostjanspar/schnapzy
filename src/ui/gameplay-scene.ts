@@ -8,6 +8,7 @@ import type { Card, Player } from '../gamelogic/types.js';
 import { compareCards } from '../gamelogic/card.js';
 import { CardAssets } from './utils/card-assets.js';
 import type { IGameStateReader } from './index.js';
+import { EventGamePlayReady } from '../events/game-event-types.js';
 
 export class GameplayScene extends BaseScene {
   private tableLayout: GameTableLayout;
@@ -76,6 +77,7 @@ export class GameplayScene extends BaseScene {
   enter(): void {
     this.visible = true;
     this.renderFromState();
+    this.eventBus.emit(new EventGamePlayReady());
   }
   
   /**
@@ -103,7 +105,7 @@ export class GameplayScene extends BaseScene {
     
     // Render gameplay-specific elements
     this.renderTrickArea();
-    this.renderTrickPiles();
+    this.renderTrickPiles();    
   }
   
   private renderTrickArea(): void {

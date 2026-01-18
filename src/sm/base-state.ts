@@ -59,6 +59,11 @@ export abstract class BaseState {
   }
 
   public transition(targetStateId: StateEnum): void {
+    const self = this;
+    queueMicrotask(() => self.executeTransition(targetStateId));
+  }
+
+  private executeTransition(targetStateId: StateEnum): void {
     let searchRoot: BaseState | null = this.parent;
 
     // Search up the hierarchy for states containing the target

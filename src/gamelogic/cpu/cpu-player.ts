@@ -19,7 +19,7 @@ import { getValidPlays } from '../rules.js';
 export class CPUPlayer {
     private beliefState: BeliefState;
 
-    constructor(_myPlayerId: Player) {
+    constructor() {
         // BeliefState initialized on game start
         this.beliefState = null!;
     }
