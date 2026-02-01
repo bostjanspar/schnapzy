@@ -192,10 +192,53 @@ export class GameTableLayout extends Container {
   clearAllCards(): void {
     this.cardSprites.forEach(sprite => sprite.destroy());
     this.cardSprites = [];
-    
+
     this.cpuHandContainer.removeChildren();
     this.playerHandContainer.removeChildren();
     this.talonContainer.removeChildren();
+  }
+
+  /**
+   * Remove a card from CPU hand and return its world position.
+   * Returns the center position of the rightmost card.
+   */
+  removeCpuCard(): { x: number; y: number } {
+    const container = this.cpuHandContainer;
+
+    // Get world position of the rightmost card (last child)
+    const lastCard = container.children[container.children.length - 1];
+    if (lastCard) {
+      const worldPos = lastCard.getGlobalPosition();
+      lastCard.destroy();
+      return { x: worldPos.x, y: worldPos.y };
+    }
+
+    // Fallback to container center if no card
+    return { x: container.x, y: container.y };
+  }
+
+  /**
+   * Remove a specific card from player hand and return its world position.
+   */
+  removePlayerCard(card: Card): { x: number; y: number } {
+    const container = this.playerHandContainer;
+
+    // Find the sprite for this card
+    for (const child of container.children) {
+      if (child instanceof Sprite) {
+        // Match by texture (each card has unique texture)
+        const texture = child.texture;
+        const cardTexture = this.cardAssets.getCardTexture(card);
+        if (texture === cardTexture) {
+          const worldPos = child.getGlobalPosition();
+          child.destroy();
+          return { x: worldPos.x, y: worldPos.y };
+        }
+      }
+    }
+
+    // Fallback to container center
+    return { x: container.x, y: container.y };
   }
   
   override destroy(): void {

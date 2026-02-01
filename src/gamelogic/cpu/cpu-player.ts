@@ -7,8 +7,7 @@ import {
 import type {
     Card,
     Suit,
-    TalonState,
-    Player,
+    TalonState
 } from '../types.js';
 import { getCardValue } from '../card.js';
 import { BeliefState } from './belief-state.js';
@@ -24,8 +23,9 @@ export class CPUPlayer {
         this.beliefState = null!;
     }
 
-    public initGame(hand: Card[], trumpCard: Card | null, trumpSuit: Suit, talonState: TalonState, talonSize: number): void {
-        this.beliefState = new BeliefState(hand, [], trumpCard, trumpSuit, talonState, talonSize);
+    public initGame(hand: Card[], trumpCard: Card ,  talonState: TalonState, talonSize: number): void {
+        this.beliefState = new BeliefState(hand, []
+            , trumpCard, talonState, talonSize);
     }
 
     public updateState(

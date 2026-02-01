@@ -18,7 +18,7 @@ describe('CPU Logic', () => {
         const trump = { suit: HEARTS, rank: JACK } as Card;
 
         it('should track unknown cards correctly', () => {
-            const state = new BeliefState(myHand, [], trump, HEARTS, TALON_OPEN, 10);
+            const state = new BeliefState(myHand, [], trump, TALON_OPEN, 10);
             const unknown = state.getUnknownCards();
 
             expect(unknown.length).toBe(18); // 20 - 1 (Hand) - 1 (Trump) = 18
@@ -27,13 +27,12 @@ describe('CPU Logic', () => {
         });
 
         it('should return exact opponent hand when talon exhausted', () => {
-            const state = new BeliefState(myHand, [], trump, HEARTS, TALON_EXHAUSTED, 0);
-            // Assume all 20 cards played except myHand and OpponentHand? 
-            // Wait, logic is: Unknown = OpponentHand (since talon empty).
-            // If played cards = 0, then OpponentHand = 18 cards? (Impossible but logic holds)
+            const state = new BeliefState(myHand, [], trump, TALON_EXHAUSTED, 0);
+            // When talon is exhausted (empty), unknown cards = opponent's hand exactly.
+            // Deck has 20 cards, minus 1 card in my hand = 19 opponent cards.
 
             const oppHand = state.getOpponentHandExact();
-            expect(oppHand.length).toBe(19); // 20 - 1 (Hand) = 19 (Trump matches card in hand or is unknown)
+            expect(oppHand.length).toBe(19); // 20 - 1 (myHand) = 19
         });
     });
 

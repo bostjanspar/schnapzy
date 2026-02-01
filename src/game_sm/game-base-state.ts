@@ -28,7 +28,7 @@ export abstract class GameBaseState extends BaseState {
 
   getParentCpuPlayer() {
     if (this.parent?.id === GAME) {
-      return (this.parent as GameState).getCpuPlayer
+      return (this.parent as GameState).getCpuPlayer();
     }
     throw new Error(`This ${this.id} parent state  ${this.parent?.id} is not GameState`);
   }

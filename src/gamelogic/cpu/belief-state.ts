@@ -22,14 +22,13 @@ export class BeliefState {
         myHand: Card[],
         playedCards: Card[],
         trumpCard: Card | null,
-        trumpSuit: Suit,
         talonState: TalonState,
-        talonSize: number
+        talonSize: number,
     ) {
         this.myHand = [...myHand];
         this.playedCards = [...playedCards];
         this.trumpCard = trumpCard;
-        this.trumpSuit = trumpSuit;
+        this.trumpSuit = trumpCard?.suit!;
         this.talonState = talonState;
         this.talonSize = talonSize;
         this.knownOpponentCards = [];

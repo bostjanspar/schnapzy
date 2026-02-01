@@ -3,6 +3,9 @@ import { GameScene } from './utils/types.js';
 import { EventBus } from './utils/event-bus.js';
 import { SceneManager } from './scene-manager.js';
 import type { IGameStateReader } from './utils/game-state-reader.js';
+import { GameplayScene } from './gameplay-scene.js';
+import type { Card } from '../gamelogic/types.js';
+import { PLAYER_CPU } from '../gamelogic/types.js';
 
 export class UIManager {
   private app: Application;
@@ -55,6 +58,15 @@ export class UIManager {
 
   startGameplay(): void {    
     this.sceneManager.transitionTo(GameScene.GAMEPLAY);
+  }
+
+  cpuPlayCard(card: Card): void {
+    if (this.getCurrentScene() === GameScene.GAMEPLAY) {
+      const scene = this.sceneManager.getScene(GameScene.GAMEPLAY);
+      if (scene && 'animateCardPlay' in scene) {
+        (scene as GameplayScene).animateCardPlay(PLAYER_CPU, card);
+      }
+    }
   }
 
   refreshGameplay(): void {

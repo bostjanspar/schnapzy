@@ -42,7 +42,6 @@ export class HintSystem {
             hand,
             playedCards,
             trumpCard,
-            trumpSuit,
             talonState,
             talonSize
         );

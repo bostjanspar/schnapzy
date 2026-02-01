@@ -178,11 +178,48 @@ export class GameplayScene extends BaseScene {
   }
   
   // =========================================================================
-  // Animation Methods (for future use)
+  // Animation Methods
   // =========================================================================
-  
-  async animateCardPlay(_player: Player, _card: Card): Promise<void> {
-    // TODO: Implement card play animation
+
+  async animateCardPlay(player: Player, card: Card): Promise<void> {
+    const w = this.app.screen.width;
+    const h = this.app.screen.height;
+    const minDim = Math.min(w, h);
+    const responsiveScale = minDim < 800 ? minDim / 800 : 1;
+
+    const isCpu = player === 'PLAYER_CPU';
+    const handScale = isCpu ? SCALE.CPU : SCALE.PLAYER;
+
+    // Remove card from hand and get its world position
+    const startPos = isCpu
+      ? this.tableLayout.removeCpuCard()
+      : this.tableLayout.removePlayerCard(card);
+
+    // Get current trick count to determine target position
+    const trickCards = this.gameStateReader.getCurrentTrickCards();
+    const isFirstCard = trickCards.length === 0;
+
+    // Calculate target position in trick area
+    const Y_OFFSET = 90;
+    const targetX = isFirstCard ? 0 : -(LAYOUT.CARD_WIDTH * 2 + LAYOUT.CARD_WIDTH / 3) * SCALE.TRICK;
+    const targetY = -Y_OFFSET * SCALE.TRICK;
+
+    // Create animated sprite with card back for CPU, face for player
+    const animSprite = new Sprite(
+      isCpu ? this.cardAssets.getCardBackTexture() : this.cardAssets.getCardTexture(card)
+    );
+    animSprite.anchor.set(0.5);
+    animSprite.scale.set(handScale * responsiveScale);
+
+    // Set initial position (convert world coordinates to trick area container local coordinates)
+    animSprite.x = startPos.x - this.trickAreaContainer.x;
+    animSprite.y = startPos.y - this.trickAreaContainer.y;
+
+    this.trickAreaContainer.addChild(animSprite);
+
+    // Animate to target (flip CPU card to show face)
+    const faceTexture = isCpu ? this.cardAssets.getCardTexture(card) : undefined;
+    await this.tweenSprite(animSprite, targetX, targetY, SCALE.TRICK * responsiveScale, 400, faceTexture);
   }
   
   async animateTrickCollection(_winner: Player): Promise<void> {
@@ -204,6 +241,56 @@ export class GameplayScene extends BaseScene {
   private handleResize = (): void => {
     this.positionContainers();
   };
+
+  /**
+   * Simple tween animation for sprite properties.
+   * Optionally flips card to show face texture during animation.
+   */
+  private tweenSprite(
+    sprite: Sprite,
+    targetX: number,
+    targetY: number,
+    targetScale: number,
+    duration: number,
+    faceTexture?: import('pixi.js').Texture
+  ): Promise<void> {
+    return new Promise((resolve) => {
+      const startX = sprite.x;
+      const startY = sprite.y;
+      const startScale = sprite.scale.x;
+      const startTime = Date.now();
+
+      // Track if we've flipped the card yet
+      let flipped = false;
+
+      const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+
+        sprite.x = startX + (targetX - startX) * eased;
+        sprite.y = startY + (targetY - startY) * eased;
+        const currentScale = startScale + (targetScale - startScale) * eased;
+        sprite.scale.set(currentScale);
+
+        // Flip card at 50% of animation if face texture provided
+        if (faceTexture && !flipped && progress >= 0.5) {
+          flipped = true;
+          sprite.texture = faceTexture;
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          resolve();
+        }
+      };
+
+      requestAnimationFrame(animate);
+    });
+  }
   
   override destroy(): void {
     window.removeEventListener('resize', this.handleResize);

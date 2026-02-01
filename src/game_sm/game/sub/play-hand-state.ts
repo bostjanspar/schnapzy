@@ -7,7 +7,7 @@ import type { GameState } from '../game-state.js';
 import log from 'loglevel'
 import type { SimpleEvent } from '../../../sm/types.js';
 import { GAME_EVENT_IDS } from '../../../events/game-event-ids.js';
-import { PLAYER_HUMAN, PLAYER_CPU } from '../../../gamelogic/types.js';
+import { PLAYER_HUMAN } from '../../../gamelogic/types.js';
 
 export class PlayHandState extends GameBaseState {
   constructor(gameState: GameState) {
@@ -38,6 +38,18 @@ export class PlayHandState extends GameBaseState {
       // TODO: Enable human input, wait for player to play
     } else {
       log.debug('It is the CPU\'s turn');
+      const hand =  this.game.getCurrentHand();
+          const talon = hand?.getTalon();
+          if (hand && talon){
+            const card  = this.getParentCpuPlayer()?.decideMove(hand.cpuPlayCards(), null, talon.getState(), talon.getTrumpCard().suit, 7,7);
+            if (card) {
+              this.ui.cpuPlayCard(card);
+            }
+          } else {
+              log.error('GameState: No current hand or talon found during CPU player initialization');
+          }
+
+      
       // TODO: Trigger CPU AI to play
     }
   }

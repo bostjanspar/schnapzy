@@ -21,6 +21,15 @@ export class GameState extends GameBaseState {
     log.debug('GameState:Entering Game State');
     this.game.startGame();
     this.cpuPlayer = new CPUPlayer();
+
+    const hand =  this.game.getCurrentHand();
+    const talon = hand?.getTalon();
+    if (hand && talon){
+        this.cpuPlayer.initGame(hand.cpuPlayCards(), talon.getTrumpCard(), talon.getState(), talon.getSize());
+    } else {
+        log.error('GameState: No current hand or talon found during CPU player initialization');
+    }
+    
   }
 
   onLeave(): void {

@@ -373,4 +373,15 @@ export class Hand {
             closerFailed
         );
     }
+
+    public cpuPlayCards(): Card [] {
+        // Implementation for CPU playing a card
+        const hand = this.players.get(PLAYER_CPU)!.getHand();
+        return hand ? [...hand ] : [];
+    }
+
+    public getTalon(): Talon {
+        return this.talon;
+    }
+
 }
